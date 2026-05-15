@@ -43,6 +43,12 @@ jobs:
           cache: npm
           cache-dependency-path: ui/package-lock.json
 
+      - name: Create production env file
+        working-directory: ui
+        run: |
+          echo "VITE_COGNITO_USER_POOL_ID=${{ secrets.VITE_COGNITO_USER_POOL_ID }}" >> .env.production
+          echo "VITE_COGNITO_USER_POOL_CLIENT_ID=${{ secrets.VITE_COGNITO_USER_POOL_CLIENT_ID }}" >> .env.production
+
       - name: Build UI
         working-directory: ui
         run: npm ci && npm run build
