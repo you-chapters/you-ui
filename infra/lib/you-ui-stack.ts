@@ -25,11 +25,25 @@ export class YouUiStack extends cdk.Stack {
       validation: acm.CertificateValidation.fromDns(),
     });
 
+    const apiOrigin = new origins.HttpOrigin('9wmm9elnpj.execute-api.us-east-1.amazonaws.com', {
+      protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
+      originPath: '/prod',
+    });
+
     const distribution = new cloudfront.Distribution(this, 'YouUiCdnDistribution', {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(bucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
+      },
+      additionalBehaviors: {
+        '/entries*': {
+          origin: apiOrigin,
+          viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+          allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+          originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+        },
       },
       domainNames: [props.domainName],
       certificate,
