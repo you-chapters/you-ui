@@ -6,6 +6,9 @@ import NewEntryPage from './NewEntryPage';
 import * as entriesApi from '../api/entries';
 
 vi.mock('../api/entries');
+vi.mock('../context/AuthContext', () => ({
+  useAuth: () => ({ user: { userId: 'test-uuid', displayName: 'Alice' } }),
+}));
 
 describe('NewEntryPage', () => {
   beforeEach(() => vi.clearAllMocks());
@@ -33,20 +36,20 @@ describe('NewEntryPage', () => {
     expect(screen.getByText('Entry cannot be empty.')).toBeTruthy();
   });
 
-  it('calls createEntry with trimmed text and shows success alert', async () => {
+  it('calls createEntry with the authenticated user UUID and trimmed text', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
-      entry_id: '1', user_id: 'user-1', entry: 'test entry',
+      entry_id: '1', user_id: 'test-uuid', entry: 'test entry',
     });
     renderPage();
     await userEvent.type(screen.getByLabelText('Your entry'), 'test entry');
     await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
     await waitFor(() => expect(screen.getByText(/Entry saved/)).toBeTruthy());
-    expect(entriesApi.createEntry).toHaveBeenCalledWith({ user_id: 'user-1', entry: 'test entry' });
+    expect(entriesApi.createEntry).toHaveBeenCalledWith({ user_id: 'test-uuid', entry: 'test entry' });
   });
 
   it('clears the textarea after successful submit', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
-      entry_id: '1', user_id: 'user-1', entry: 'test',
+      entry_id: '1', user_id: 'test-uuid', entry: 'test',
     });
     renderPage();
     const textarea = screen.getByLabelText('Your entry') as HTMLTextAreaElement;

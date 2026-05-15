@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { createEntry } from '../api/entries';
+import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import './NewEntryPage.css';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
-const CURRENT_USER_ID = 'user-1';
-
 export default function NewEntryPage() {
+  const { user } = useAuth();
   const [entryText, setEntryText] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,7 +22,7 @@ export default function NewEntryPage() {
     }
     setStatus('submitting');
     try {
-      await createEntry({ user_id: CURRENT_USER_ID, entry: entryText.trim() });
+      await createEntry({ user_id: user!.userId, entry: entryText.trim() });
       setEntryText('');
       setStatus('success');
     } catch (err) {

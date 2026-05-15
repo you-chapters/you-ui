@@ -6,10 +6,13 @@ import * as entriesApi from '../api/entries';
 import type { Entry } from '../types/entry';
 
 vi.mock('../api/entries');
+vi.mock('../context/AuthContext', () => ({
+  useAuth: () => ({ user: { userId: 'test-uuid', displayName: 'Alice' } }),
+}));
 
 const mockEntries: Entry[] = [
-  { entry_id: '1', user_id: 'user-1', entry: 'First entry', timestamp: '2024-01-01T12:00:00Z' },
-  { entry_id: '2', user_id: 'user-1', entry: 'Second entry' },
+  { entry_id: '1', user_id: 'test-uuid', entry: 'First entry', timestamp: '2024-01-01T12:00:00Z' },
+  { entry_id: '2', user_id: 'test-uuid', entry: 'Second entry' },
 ];
 
 function renderListView() {
@@ -44,6 +47,12 @@ describe('EntriesViewPage - list mode', () => {
       </MemoryRouter>
     );
     expect(container.querySelector('.spinner')).toBeTruthy();
+  });
+
+  it('calls listEntries with the authenticated user UUID', async () => {
+    vi.mocked(entriesApi.listEntries).mockResolvedValue(mockEntries);
+    renderListView();
+    await waitFor(() => expect(entriesApi.listEntries).toHaveBeenCalledWith('test-uuid'));
   });
 
   it('renders entry cards after loading', async () => {
