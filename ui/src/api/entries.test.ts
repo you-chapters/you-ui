@@ -1,8 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { createEntry, getEntry, listEntries } from './entries';
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+vi.mock('aws-amplify/auth', () => ({ fetchAuthSession: vi.fn() }));
 
 describe('entries API', () => {
-  beforeEach(() => vi.stubGlobal('fetch', vi.fn()));
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn());
+    vi.mocked(fetchAuthSession).mockResolvedValue({
+      tokens: { idToken: { toString: () => 'mock-token' } },
+    } as any);
+  });
   afterEach(() => vi.unstubAllGlobals());
 
   function mockOk(data: unknown) {
@@ -22,36 +30,47 @@ describe('entries API', () => {
     });
   }
 
-  it('createEntry posts to /entries with JSON body and returns entry', async () => {
+  it('createEntry posts to /entries with JSON body and auth header', async () => {
     const entry = { entry_id: '1', user_id: 'u1', entry: 'hello' };
     mockOk(entry);
     const result = await createEntry({ user_id: 'u1', entry: 'hello' });
     expect(fetch).toHaveBeenCalledWith('/entries', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer mock-token' },
       body: JSON.stringify({ user_id: 'u1', entry: 'hello' }),
     });
     expect(result).toEqual(entry);
   });
 
-  it('getEntry fetches from /entries/:id', async () => {
+  it('getEntry fetches from /entries/:id with auth header', async () => {
     const entry = { entry_id: '42', user_id: 'u1', entry: 'world' };
     mockOk(entry);
     const result = await getEntry('42');
-    expect(fetch).toHaveBeenCalledWith('/entries/42', undefined);
+    expect(fetch).toHaveBeenCalledWith('/entries/42', {
+      headers: { Authorization: 'Bearer mock-token' },
+    });
     expect(result).toEqual(entry);
   });
 
   it('listEntries fetches /entries without query when no userId', async () => {
     mockOk([]);
     await listEntries();
-    expect(fetch).toHaveBeenCalledWith('/entries', undefined);
+    expect(fetch).toHaveBeenCalledWith('/entries', {
+      headers: { Authorization: 'Bearer mock-token' },
+    });
   });
 
   it('listEntries appends encoded user_id as query param', async () => {
     mockOk([]);
     await listEntries('user-1');
-    expect(fetch).toHaveBeenCalledWith('/entries?user_id=user-1', undefined);
+    expect(fetch).toHaveBeenCalledWith('/entries?user_id=user-1', {
+      headers: { Authorization: 'Bearer mock-token' },
+    });
+  });
+
+  it('throws when no token is available', async () => {
+    vi.mocked(fetchAuthSession).mockResolvedValue({ tokens: undefined } as any);
+    await expect(getEntry('1')).rejects.toThrow('Not authenticated');
   });
 
   it('throws with response body text on non-ok response', async () => {
