@@ -49,7 +49,7 @@ jobs:
 
       - name: Install infra deps
         working-directory: infra
-        run: npm ci
+        run: npm install
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
