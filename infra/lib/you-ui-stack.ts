@@ -46,11 +46,7 @@ export class YouUiStack extends cdk.Stack {
                     origin: apiOrigin,
                     viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                     cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
-                    originRequestPolicy: new cloudfront.OriginRequestPolicy(this, 'ApiOriginRequestPolicy', {
-                        headerBehavior: cloudfront.OriginRequestHeaderBehavior.all(),
-                        queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
-                        cookieBehavior: cloudfront.OriginRequestCookieBehavior.none(),
-                    }),
+                    originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
                     allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
                 },
             },
