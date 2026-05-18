@@ -30,6 +30,16 @@ export class YouUiStack extends cdk.Stack {
       originPath: '/prod',
     });
 
+    // TTL=0 disables caching while still forwarding Authorization to the origin.
+    // Authorization cannot go in OriginRequestPolicy — CloudFront requires it in CachePolicy.
+    const apiCachePolicy = new cloudfront.CachePolicy(this, 'ApiCachePolicy', {
+      minTtl: cdk.Duration.seconds(0),
+      defaultTtl: cdk.Duration.seconds(0),
+      maxTtl: cdk.Duration.seconds(0),
+      headerBehavior: cloudfront.CacheHeaderBehavior.allowList('Authorization'),
+      queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
+    });
+
     const distribution = new cloudfront.Distribution(this, 'YouUiCdnDistribution', {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(bucket),
@@ -45,10 +55,10 @@ export class YouUiStack extends cdk.Stack {
         '/entries*': {
           origin: apiOrigin,
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-          cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+          cachePolicy: apiCachePolicy,
           originRequestPolicy: new cloudfront.OriginRequestPolicy(this, 'ApiOriginRequestPolicy', {
-            headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList('Authorization'),
-            queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
+            headerBehavior: cloudfront.OriginRequestHeaderBehavior.none(),
+            queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.none(),
             cookieBehavior: cloudfront.OriginRequestCookieBehavior.none(),
           }),
           allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
