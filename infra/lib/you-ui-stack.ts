@@ -37,18 +37,15 @@ export class YouUiStack extends cdk.Stack {
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
       },
       additionalBehaviors: {
+        '/index.html': {
+          origin: origins.S3BucketOrigin.withOriginAccessControl(bucket),
+          viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+          cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+        },
         '/entries*': {
           origin: apiOrigin,
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-          cachePolicy: new cloudfront.CachePolicy(this, 'ApiCachePolicy', {
-            defaultTtl: cdk.Duration.seconds(0),
-            minTtl: cdk.Duration.seconds(0),
-            maxTtl: cdk.Duration.seconds(0),
-            queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
-            cookieBehavior: cloudfront.CacheCookieBehavior.none(),
-            enableAcceptEncodingGzip: false,
-            enableAcceptEncodingBrotli: false,
-          }),
+          cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
           originRequestPolicy: new cloudfront.OriginRequestPolicy(this, 'ApiOriginRequestPolicy', {
             headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList('Authorization'),
             queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
