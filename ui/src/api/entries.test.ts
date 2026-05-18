@@ -52,18 +52,10 @@ describe('entries API', () => {
     expect(result).toEqual(entry);
   });
 
-  it('listEntries fetches /entries without query when no userId', async () => {
+  it('listEntries fetches /entries', async () => {
     mockOk([]);
     await listEntries();
     expect(fetch).toHaveBeenCalledWith('/entries', {
-      headers: { Authorization: 'Bearer mock-token' },
-    });
-  });
-
-  it('listEntries appends encoded user_id as query param', async () => {
-    mockOk([]);
-    await listEntries('user-1');
-    expect(fetch).toHaveBeenCalledWith('/entries?user_id=user-1', {
       headers: { Authorization: 'Bearer mock-token' },
     });
   });

@@ -38,7 +38,6 @@ export function getEntry(id: string): Promise<Entry> {
   return apiFetch<Entry>(`/entries/${id}`);
 }
 
-export function listEntries(userId?: string): Promise<Entry[]> {
-  const query = userId ? `?user_id=${encodeURIComponent(userId)}` : '';
-  return apiFetch<Entry[]>(`/entries${query}`);
+export function listEntries(): Promise<Entry[]> {
+  return apiFetch<Entry[]>('/entries');
 }

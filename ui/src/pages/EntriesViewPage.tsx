@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { listEntries, getEntry } from '../api/entries';
-import { useAuth } from '../context/AuthContext';
 import type { Entry } from '../types/entry';
 import EntryCard from '../components/EntryCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -54,7 +53,6 @@ function EntryDetail({ id }: { id: string }) {
 
 export default function EntriesViewPage() {
   const { id } = useParams<{ id?: string }>();
-  const { user } = useAuth();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +60,7 @@ export default function EntriesViewPage() {
   const load = useCallback(() => {
     setLoading(true);
     setError(null);
-    listEntries(user?.userId)
+    listEntries()
       .then(setEntries)
       .catch(err => setError(err instanceof Error ? err.message : 'Failed to load entries.'))
       .finally(() => setLoading(false));

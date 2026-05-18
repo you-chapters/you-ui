@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/entries': 'http://localhost:8000'
+      '/entries': 'http://you.havryliuk.com/api'
     }
   }
 })

@@ -27,17 +27,7 @@ export class YouUiStack extends cdk.Stack {
 
         const apiOrigin = new origins.HttpOrigin('9wmm9elnpj.execute-api.us-east-1.amazonaws.com', {
             protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
-            originPath: '/prod',
-        });
-
-        const rewriteFn = new cloudfront.Function(this, 'RewriteApiPath', {
-            code: cloudfront.FunctionCode.fromInline(`
-    function handler(event) {
-      var request = event.request;
-      request.uri = '/api' + request.uri;
-      return request;
-    }
-  `),
+            originPath: '/api',
         });
 
         const distribution = new cloudfront.Distribution(this, 'YouUiCdnDistribution', {
@@ -62,10 +52,6 @@ export class YouUiStack extends cdk.Stack {
                         cookieBehavior: cloudfront.OriginRequestCookieBehavior.none(),
                     }),
                     allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
-                    functionAssociations: [{
-                        function: rewriteFn,
-                        eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-                    }]
                 },
             },
             domainNames: [props.domainName],
