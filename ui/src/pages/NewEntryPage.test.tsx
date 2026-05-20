@@ -19,8 +19,10 @@ describe('NewEntryPage', () => {
 
   it('renders the entry form', () => {
     renderPage();
-    expect(screen.getByLabelText('Your entry')).toBeTruthy();
+    const textarea = screen.getByLabelText('Your entry');
+    expect(textarea).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Save Entry' })).toBeTruthy();
+    expect(document.activeElement).toBe(textarea);
   });
 
   it('shows validation error when submitting empty entry', async () => {

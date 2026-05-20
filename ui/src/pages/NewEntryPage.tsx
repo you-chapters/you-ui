@@ -53,6 +53,7 @@ export default function NewEntryPage() {
             placeholder="What's on your mind?"
             value={entryText}
             onChange={e => setEntryText(e.target.value)}
+            autoFocus
           />
         </div>
 
