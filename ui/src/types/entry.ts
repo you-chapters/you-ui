@@ -3,9 +3,11 @@ export interface Entry {
   user_id: string;
   entry: string;
   timestamp?: string;
+  location?: string;
 }
 
 export interface CreateEntryPayload {
   user_id: string;
   entry: string;
+  location?: string;
 }

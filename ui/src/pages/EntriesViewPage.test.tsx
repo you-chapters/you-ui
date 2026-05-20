@@ -115,4 +115,25 @@ describe('EntriesViewPage - detail mode', () => {
     renderDetailView('x');
     await waitFor(() => expect(screen.getByText('Not found')).toBeTruthy());
   });
+
+  it('shows location when present', async () => {
+    vi.mocked(entriesApi.getEntry).mockResolvedValue({ ...mockEntries[0], location: 'Tokyo' });
+    const { container } = render(
+      <MemoryRouter initialEntries={['/entries/1']}>
+        <Routes><Route path="/entries/:id" element={<EntriesViewPage />} /></Routes>
+      </MemoryRouter>
+    );
+    await waitFor(() => expect(container.querySelector('.entry-detail__location')?.textContent).toBe('Tokyo'));
+  });
+
+  it('omits location element when absent', async () => {
+    vi.mocked(entriesApi.getEntry).mockResolvedValue(mockEntries[0]);
+    const { container } = render(
+      <MemoryRouter initialEntries={['/entries/1']}>
+        <Routes><Route path="/entries/:id" element={<EntriesViewPage />} /></Routes>
+      </MemoryRouter>
+    );
+    await waitFor(() => screen.getByText('First entry'));
+    expect(container.querySelector('.entry-detail__location')).toBeNull();
+  });
 });
