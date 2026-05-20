@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { createEntry, getEntry, listEntries } from './entries';
+import { createEntry, getEntry, listEntries, searchEntries } from './entries';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 vi.mock('aws-amplify/auth', () => ({ fetchAuthSession: vi.fn() }));
@@ -33,11 +33,11 @@ describe('entries API', () => {
   it('createEntry posts to /entries with JSON body and auth header', async () => {
     const entry = { entry_id: '1', user_id: 'u1', entry: 'hello' };
     mockOk(entry);
-    const result = await createEntry({ user_id: 'u1', entry: 'hello' });
+    const result = await createEntry({ entry: 'hello' });
     expect(fetch).toHaveBeenCalledWith('/entries', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer mock-token' },
-      body: JSON.stringify({ user_id: 'u1', entry: 'hello' }),
+      body: JSON.stringify({ entry: 'hello' }),
     });
     expect(result).toEqual(entry);
   });
@@ -57,6 +57,16 @@ describe('entries API', () => {
     await listEntries();
     expect(fetch).toHaveBeenCalledWith('/entries', {
       headers: { Authorization: 'Bearer mock-token' },
+    });
+  });
+
+  it('searchEntries posts to /entries/search with query', async () => {
+    mockOk([]);
+    await searchEntries('Alice');
+    expect(fetch).toHaveBeenCalledWith('/entries/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer mock-token' },
+      body: JSON.stringify({ query: 'Alice' }),
     });
   });
 

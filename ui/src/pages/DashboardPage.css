@@ -1,0 +1,11 @@
+.dashboard {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.error {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-error);
+}

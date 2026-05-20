@@ -93,6 +93,44 @@ describe('EntriesViewPage - list mode', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
     await waitFor(() => expect(screen.getByText('First entry')).toBeTruthy());
   });
+
+  it('renders the search form', async () => {
+    vi.mocked(entriesApi.listEntries).mockResolvedValue([]);
+    renderListView();
+    await waitFor(() => screen.getByPlaceholderText('Search entries…'));
+  });
+
+  it('calls searchEntries when form is submitted with a query', async () => {
+    vi.mocked(entriesApi.listEntries).mockResolvedValue([]);
+    vi.mocked(entriesApi.searchEntries).mockResolvedValue([mockEntries[0]]);
+    renderListView();
+    await waitFor(() => screen.getByPlaceholderText('Search entries…'));
+    fireEvent.change(screen.getByPlaceholderText('Search entries…'), { target: { value: 'Alice' } });
+    fireEvent.submit(screen.getByPlaceholderText('Search entries…').closest('form')!);
+    await waitFor(() => expect(entriesApi.searchEntries).toHaveBeenCalledWith('Alice'));
+    expect(screen.getByText('First entry')).toBeTruthy();
+  });
+
+  it('pre-populates search from location.state and calls searchEntries', async () => {
+    vi.mocked(entriesApi.searchEntries).mockResolvedValue([mockEntries[0]]);
+    render(
+      <MemoryRouter initialEntries={[{ pathname: '/entries', state: { searchQuery: 'Alice' } }]}>
+        <Routes><Route path="/entries" element={<EntriesViewPage />} /></Routes>
+      </MemoryRouter>
+    );
+    await waitFor(() => expect(entriesApi.searchEntries).toHaveBeenCalledWith('Alice'));
+    expect(screen.getByDisplayValue('Alice')).toBeTruthy();
+  });
+
+  it('shows no-results message when search returns empty', async () => {
+    vi.mocked(entriesApi.listEntries).mockResolvedValue([]);
+    vi.mocked(entriesApi.searchEntries).mockResolvedValue([]);
+    renderListView();
+    await waitFor(() => screen.getByPlaceholderText('Search entries…'));
+    fireEvent.change(screen.getByPlaceholderText('Search entries…'), { target: { value: 'xyz' } });
+    fireEvent.submit(screen.getByPlaceholderText('Search entries…').closest('form')!);
+    await waitFor(() => expect(screen.getByText('No results for "xyz".')).toBeTruthy());
+  });
 });
 
 describe('EntriesViewPage - detail mode', () => {

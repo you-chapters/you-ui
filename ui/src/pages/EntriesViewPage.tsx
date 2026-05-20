@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { listEntries, getEntry } from '../api/entries';
+import { Link, useParams, useLocation } from 'react-router-dom';
+import { listEntries, getEntry, searchEntries } from '../api/entries';
 import type { Entry } from '../types/entry';
 import EntryCard from '../components/EntryCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -54,22 +54,38 @@ function EntryDetail({ id }: { id: string }) {
 
 export default function EntriesViewPage() {
   const { id } = useParams<{ id?: string }>();
+  const location = useLocation();
+  const initialQuery = (location.state as { searchQuery?: string } | null)?.searchQuery ?? '';
+
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [inputValue, setInputValue] = useState(initialQuery);
 
-  const load = useCallback(() => {
+  const load = useCallback((query: string) => {
     setLoading(true);
     setError(null);
-    listEntries()
+    const req = query.trim() ? searchEntries(query.trim()) : listEntries();
+    req
       .then(setEntries)
       .catch(err => setError(err instanceof Error ? err.message : 'Failed to load entries.'))
       .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
-    if (!id) load();
-  }, [id, load]);
+    if (!id) load(searchQuery);
+  }, [id, searchQuery, load]);
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    setSearchQuery(inputValue);
+  }
+
+  function handleClear() {
+    setInputValue('');
+    setSearchQuery('');
+  }
 
   if (id) return <EntryDetail id={id} />;
 
@@ -82,19 +98,41 @@ export default function EntriesViewPage() {
         )}
       </div>
 
+      <form className="entries-view__search" onSubmit={handleSearch}>
+        <input
+          type="search"
+          className="entries-view__search-input"
+          placeholder="Search entries…"
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
+        />
+        {inputValue && (
+          <button type="button" className="entries-view__search-clear" onClick={handleClear} aria-label="Clear search">
+            ×
+          </button>
+        )}
+        <button type="submit" className="entries-view__search-btn">Search</button>
+      </form>
+
       {loading && <LoadingSpinner />}
 
       {!loading && error && (
         <div className="entries-view__error">
           <p>{error}</p>
-          <button className="entries-view__retry" onClick={load}>Retry</button>
+          <button className="entries-view__retry" onClick={() => load(searchQuery)}>Retry</button>
         </div>
       )}
 
       {!loading && !error && entries.length === 0 && (
         <div className="entries-view__empty">
-          <p>No entries yet.</p>
-          <Link to="/new">Write your first one →</Link>
+          {searchQuery ? (
+            <p>No results for "{searchQuery}".</p>
+          ) : (
+            <>
+              <p>No entries yet.</p>
+              <Link to="/new">Write your first one →</Link>
+            </>
+          )}
         </div>
       )}
 

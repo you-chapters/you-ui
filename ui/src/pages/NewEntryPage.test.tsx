@@ -38,7 +38,7 @@ describe('NewEntryPage', () => {
     expect(screen.getByText('Entry cannot be empty.')).toBeTruthy();
   });
 
-  it('calls createEntry with user UUID, trimmed text, and no location when blank', async () => {
+  it('calls createEntry with trimmed text and no location when blank', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
       entry_id: '1', user_id: 'test-uuid', entry: 'test entry',
     });
@@ -46,7 +46,7 @@ describe('NewEntryPage', () => {
     await userEvent.type(screen.getByLabelText('Your entry'), 'test entry');
     await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
     await waitFor(() => expect(screen.getByText(/Entry saved/)).toBeTruthy());
-    expect(entriesApi.createEntry).toHaveBeenCalledWith({ user_id: 'test-uuid', entry: 'test entry', location: undefined });
+    expect(entriesApi.createEntry).toHaveBeenCalledWith({ entry: 'test entry', location: undefined });
   });
 
   it('submits location when provided', async () => {
@@ -58,7 +58,7 @@ describe('NewEntryPage', () => {
     await userEvent.type(screen.getByLabelText('Your entry'), 'test entry');
     await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
     await waitFor(() => expect(screen.getByText(/Entry saved/)).toBeTruthy());
-    expect(entriesApi.createEntry).toHaveBeenCalledWith({ user_id: 'test-uuid', entry: 'test entry', location: 'Berlin' });
+    expect(entriesApi.createEntry).toHaveBeenCalledWith({ entry: 'test entry', location: 'Berlin' });
   });
 
   it('clears the location input after successful submit', async () => {
