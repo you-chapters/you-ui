@@ -45,6 +45,7 @@ function EntryDetail({ id }: { id: string }) {
         {formatDate(entry.timestamp) && (
           <p className="entry-detail__date">{formatDate(entry.timestamp)}</p>
         )}
+        {entry.location && <p className="entry-detail__location">{entry.location}</p>}
       </div>
       <p className="entry-detail__body">{entry.entry}</p>
     </main>

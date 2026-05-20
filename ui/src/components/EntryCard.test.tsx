@@ -46,4 +46,14 @@ describe('EntryCard', () => {
     const container = renderCard(baseEntry);
     expect(container.querySelector('.entry-card__date')).toBeNull();
   });
+
+  it('renders location when provided', () => {
+    const container = renderCard({ ...baseEntry, location: 'Berlin' });
+    expect(container.querySelector('.entry-card__location')?.textContent).toBe('Berlin');
+  });
+
+  it('omits location element when absent', () => {
+    const container = renderCard(baseEntry);
+    expect(container.querySelector('.entry-card__location')).toBeNull();
+  });
 });

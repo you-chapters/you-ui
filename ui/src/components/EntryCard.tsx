@@ -27,6 +27,7 @@ export default function EntryCard({ entry }: Props) {
   return (
     <Link to={`/entries/${entry.entry_id}`} className="entry-card">
       {date && <p className="entry-card__date">{date}</p>}
+      {entry.location && <p className="entry-card__location">{entry.location}</p>}
       <p className="entry-card__preview">{preview}</p>
     </Link>
   );

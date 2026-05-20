@@ -10,6 +10,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export default function NewEntryPage() {
   const { user } = useAuth();
   const [entryText, setEntryText] = useState('');
+  const [location, setLocation] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -22,8 +23,9 @@ export default function NewEntryPage() {
     }
     setStatus('submitting');
     try {
-      await createEntry({ user_id: user!.userId, entry: entryText.trim() });
+      await createEntry({ user_id: user!.userId, entry: entryText.trim(), location: location.trim() || undefined });
       setEntryText('');
+      setLocation('');
       setStatus('success');
     } catch (err) {
       setStatus('error');
@@ -45,6 +47,18 @@ export default function NewEntryPage() {
       )}
 
       <form onSubmit={handleSubmit}>
+        <div className="field">
+          <label className="field__label" htmlFor="location">Location</label>
+          <input
+            id="location"
+            className="field__input"
+            type="text"
+            placeholder="Where are you?"
+            value={location}
+            onChange={e => setLocation(e.target.value)}
+          />
+        </div>
+
         <div className="field">
           <label className="field__label" htmlFor="entryText">Your entry</label>
           <textarea

@@ -103,6 +103,12 @@
   letter-spacing: 0.07em;
 }
 
+.entry-detail__location {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-xs);
+}
+
 .entry-detail__body {
   font-family: var(--font-serif);
   font-size: 1.0625rem;
