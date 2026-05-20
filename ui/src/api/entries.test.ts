@@ -60,14 +60,16 @@ describe('entries API', () => {
     });
   });
 
-  it('searchEntries posts to /entries/search with query', async () => {
-    mockOk([]);
-    await searchEntries('Alice');
+  it('searchEntries posts to /entries/search with query and unwraps entries', async () => {
+    const entry = { entry_id: '1', user_id: 'u1', entry: 'hello' };
+    mockOk({ entries: [entry] });
+    const result = await searchEntries('Alice');
     expect(fetch).toHaveBeenCalledWith('/entries/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer mock-token' },
       body: JSON.stringify({ query: 'Alice' }),
     });
+    expect(result).toEqual([entry]);
   });
 
   it('throws when no token is available', async () => {

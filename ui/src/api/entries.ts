@@ -18,9 +18,9 @@ export function listEntries(): Promise<Entry[]> {
 }
 
 export function searchEntries(query: string): Promise<Entry[]> {
-  return apiFetch<Entry[]>('/entries/search', {
+  return apiFetch<{ entries: Entry[] }>('/entries/search', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query }),
-  });
+  }).then(r => r.entries);
 }
