@@ -1,6 +1,6 @@
-.people-card {}
+.places-card {}
 
-.people-card__title {
+.places-card__title {
   font-family: var(--font-serif);
   font-size: 1.125rem;
   font-weight: normal;
@@ -8,14 +8,14 @@
   margin-bottom: var(--space-md);
 }
 
-.people-card__list {
+.places-card__list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-.people-card__person {
+.places-card__place {
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
@@ -28,13 +28,13 @@
   transition: border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
 }
 
-.people-card__person:hover {
+.places-card__place:hover {
   border-color: var(--color-accent);
   background: var(--color-accent-light);
   color: var(--color-accent);
 }
 
-.people-card__person small {
+.places-card__place small {
   color: var(--color-text-secondary);
   font-size: 0.8125rem;
 }

@@ -1,0 +1,27 @@
+.narrative-stack {
+  position: relative;
+  margin-top: var(--space-xl);
+  padding-bottom: 10px;
+}
+
+.narrative-stack__front {
+  position: relative;
+  z-index: 1;
+  transition: opacity 120ms ease;
+}
+
+.narrative-stack--fading .narrative-stack__front {
+  opacity: 0;
+}
+
+.narrative-stack__peek {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  z-index: 0;
+}

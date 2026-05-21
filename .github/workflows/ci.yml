@@ -66,3 +66,6 @@ jobs:
       - name: Deploy
         working-directory: infra
         run: npx cdk deploy --require-approval never
+
+      - name: Invalidate CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
