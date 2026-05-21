@@ -4,6 +4,17 @@
   padding: var(--space-2xl) var(--space-xl);
 }
 
+.dashboard__cards-row {
+  display: flex;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.dashboard__cards-row > * {
+  flex: 1;
+  min-width: 0;
+}
+
 .error {
   text-align: center;
   padding: var(--space-2xl);
