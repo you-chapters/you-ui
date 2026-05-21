@@ -6,6 +6,9 @@ import * as summaryApi from '../api/summary';
 import type { PeriodSummary } from '../types/summary';
 
 vi.mock('../api/summary');
+vi.mock('../components/NarrativeStack', () => ({
+  default: () => <div data-testid="narrative-stack" />,
+}));
 
 const mockSummary: PeriodSummary = {
   period_days: 30,
@@ -20,7 +23,9 @@ function renderPage() {
 }
 
 describe('DashboardPage', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('shows loading spinner while fetching', () => {
     vi.mocked(summaryApi.getSummary).mockReturnValue(new Promise(() => {}));
@@ -64,5 +69,12 @@ describe('DashboardPage', () => {
     await waitFor(() => screen.getByText('7d'));
     fireEvent.click(screen.getByText('7d'));
     expect(container.querySelector('.spinner')).toBeTruthy();
+  });
+
+  it('renders two narrative stacks', async () => {
+    vi.mocked(summaryApi.getSummary).mockResolvedValue(mockSummary);
+    renderPage();
+    await waitFor(() => screen.getByText('3 entries'));
+    expect(screen.getAllByTestId('narrative-stack')).toHaveLength(2);
   });
 });
