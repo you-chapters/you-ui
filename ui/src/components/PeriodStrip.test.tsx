@@ -15,6 +15,7 @@ const baseSummary: PeriodSummary = {
     { topic: 'health', count: 2 },
   ],
   top_people: [],
+  top_locations: [],
 };
 
 describe('PeriodStrip', () => {

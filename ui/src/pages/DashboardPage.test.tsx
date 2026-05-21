@@ -16,6 +16,7 @@ const mockSummary: PeriodSummary = {
   mood_timeline: [{ date: '2026-05-01', mood: 'positive' }],
   top_topics: [{ topic: 'work', count: 2 }],
   top_people: [{ name: 'Alice', count: 1 }],
+  top_locations: [],
 };
 
 function renderPage() {
