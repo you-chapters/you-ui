@@ -17,7 +17,7 @@ export default function PlacesCard({ locations }: Props) {
 
   return (
     <section className="places-card">
-      <h2 className="places-card__title">Places</h2>
+      <h2 className="places-card__title">📍 Places</h2>
       <ul className="places-card__list">
         {locations.map(({ location, count }) => (
           <li key={location}>

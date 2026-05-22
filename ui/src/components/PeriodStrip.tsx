@@ -10,6 +10,22 @@ const MOOD_COLOR: Record<string, string> = {
   excited:  '#f472b6'
 };
 
+const MOOD_EMOJI: Record<string, string> = {
+  positive: '😊',
+  excited:  '🤩',
+  neutral:  '😐',
+  mixed:    '😕',
+  anxious:  '😰',
+  negative: '😔'
+};
+
+function dominantMood(timeline: { mood: string }[]): string | null {
+  if (timeline.length === 0) return null;
+  const counts: Record<string, number> = {};
+  for (const { mood } of timeline) counts[mood] = (counts[mood] ?? 0) + 1;
+  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+}
+
 interface Props {
   summary: PeriodSummary;
   period: 7 | 30;
@@ -17,6 +33,8 @@ interface Props {
 }
 
 export default function PeriodStrip({ summary, period, onPeriodChange }: Props) {
+  const mood = dominantMood(summary.mood_timeline);
+
   return (
     <section className="period-strip">
       <div className="period-strip__controls">
@@ -32,6 +50,11 @@ export default function PeriodStrip({ summary, period, onPeriodChange }: Props) 
         >
           30d
         </button>
+        {mood && (
+          <span className="period-strip__mood" title={mood}>
+            {MOOD_EMOJI[mood]}
+          </span>
+        )}
         <span className="period-strip__count">
           {summary.entry_count} {summary.entry_count === 1 ? 'entry' : 'entries'}
         </span>

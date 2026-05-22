@@ -17,7 +17,7 @@ export default function PeopleCard({ people }: Props) {
 
   return (
     <section className="people-card">
-      <h2 className="people-card__title">People</h2>
+      <h2 className="people-card__title">👥 People</h2>
       <ul className="people-card__list">
         {people.map(({ name, count }) => (
           <li key={name}>

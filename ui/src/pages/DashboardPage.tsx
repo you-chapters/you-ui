@@ -10,7 +10,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
-  const [period, setPeriod] = useState<7 | 30>(30);
+  const [period, setPeriod] = useState<7 | 30>(7);
   const [summary, setSummary] = useState<PeriodSummary | null>(null);
   const [summaryError, setSummaryError] = useState<string | null>(null);
 
