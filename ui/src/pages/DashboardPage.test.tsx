@@ -48,10 +48,10 @@ describe('DashboardPage', () => {
     await waitFor(() => expect(screen.getByText('Network error')).toBeTruthy());
   });
 
-  it('calls getSummary with 30 by default', async () => {
+  it('calls getSummary with 7 by default', async () => {
     vi.mocked(summaryApi.getSummary).mockResolvedValue(mockSummary);
     renderPage();
-    expect(summaryApi.getSummary).toHaveBeenCalledWith(30);
+    expect(summaryApi.getSummary).toHaveBeenCalledWith(7);
   });
 
   it('re-fetches with period 7 when 7d is clicked', async () => {
@@ -67,8 +67,8 @@ describe('DashboardPage', () => {
       .mockResolvedValueOnce(mockSummary)
       .mockReturnValue(new Promise(() => {}));
     const { container } = render(<MemoryRouter><DashboardPage /></MemoryRouter>);
-    await waitFor(() => screen.getByText('7d'));
-    fireEvent.click(screen.getByText('7d'));
+    await waitFor(() => screen.getByText('30d'));
+    fireEvent.click(screen.getByText('30d'));
     expect(container.querySelector('.spinner')).toBeTruthy();
   });
 
