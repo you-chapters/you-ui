@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NewEntryPage from './pages/NewEntryPage';
 import EntriesViewPage from './pages/EntriesViewPage';
+import PhasesPage from './pages/PhasesPage';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/new" element={<ProtectedRoute><NewEntryPage /></ProtectedRoute>} />
         <Route path="/entries" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
         <Route path="/entries/:id" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
+        <Route path="/phases" element={<ProtectedRoute><PhasesPage /></ProtectedRoute>} />
       </Routes>
     </>
   );

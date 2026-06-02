@@ -1,0 +1,113 @@
+.phases-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.phases-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2xl);
+}
+
+.phases-page__title {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: normal;
+  color: var(--color-text-primary);
+}
+
+.phases-page__refresh {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.phases-page__refresh:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.phases-page__refresh:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.phases-page__error {
+  color: var(--color-error);
+  text-align: center;
+  padding: var(--space-2xl);
+}
+
+.phases-page__empty {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-secondary);
+}
+
+.phases-page__empty-hint {
+  font-family: var(--font-serif);
+  font-size: 0.9375rem;
+  margin-top: var(--space-sm);
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+}
+
+.phases-timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.phases-timeline__item {
+  position: relative;
+  padding-left: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+.phases-timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.phases-timeline__connector {
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.phases-timeline__item:last-child .phases-timeline__connector {
+  display: none;
+}
+
+.phases-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: 2px solid var(--color-bg);
+  z-index: 1;
+}
+
+.phases-timeline__item:last-child::before {
+  background: var(--color-accent);
+}
+
+.phases-page__current-hint {
+  margin-top: var(--space-xl);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
