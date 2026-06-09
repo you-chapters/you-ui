@@ -52,10 +52,18 @@ describe('entries API', () => {
     expect(result).toEqual(entry);
   });
 
-  it('listEntries fetches /entries', async () => {
+  it('listEntries fetches /entries without params', async () => {
     mockOk([]);
     await listEntries();
     expect(fetch).toHaveBeenCalledWith('/entries', {
+      headers: { Authorization: 'Bearer mock-token' },
+    });
+  });
+
+  it('listEntries fetches /entries with date range params', async () => {
+    mockOk([]);
+    await listEntries('2026-06-02', '2026-06-08');
+    expect(fetch).toHaveBeenCalledWith('/entries?from_date=2026-06-02&to_date=2026-06-08', {
       headers: { Authorization: 'Bearer mock-token' },
     });
   });

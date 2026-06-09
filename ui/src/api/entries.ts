@@ -13,8 +13,12 @@ export function getEntry(id: string): Promise<Entry> {
   return apiFetch<Entry>(`/entries/${id}`);
 }
 
-export function listEntries(): Promise<Entry[]> {
-  return apiFetch<Entry[]>('/entries');
+export function listEntries(fromDate?: string, toDate?: string): Promise<Entry[]> {
+  const params = new URLSearchParams();
+  if (fromDate) params.set('from_date', fromDate);
+  if (toDate) params.set('to_date', toDate);
+  const queryString = params.toString();
+  return apiFetch<Entry[]>(`/entries${queryString ? `?${queryString}` : ''}`);
 }
 
 export function searchEntries(query: string): Promise<Entry[]> {

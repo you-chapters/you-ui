@@ -46,10 +46,13 @@ describe('EntriesViewPage - list mode', () => {
     expect(container.querySelector('.spinner')).toBeTruthy();
   });
 
-  it('calls listEntries on load', async () => {
+  it('calls listEntries on load with current week dates', async () => {
     vi.mocked(entriesApi.listEntries).mockResolvedValue(mockEntries);
     renderListView();
-    await waitFor(() => expect(entriesApi.listEntries).toHaveBeenCalledWith());
+    await waitFor(() => expect(entriesApi.listEntries).toHaveBeenCalledWith(
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
+    ));
   });
 
   it('renders entry cards after loading', async () => {
@@ -74,7 +77,7 @@ describe('EntriesViewPage - list mode', () => {
   it('shows empty state when there are no entries', async () => {
     vi.mocked(entriesApi.listEntries).mockResolvedValue([]);
     renderListView();
-    await waitFor(() => expect(screen.getByText('No entries yet.')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('No entries this week.')).toBeTruthy());
   });
 
   it('shows error message and retry button on fetch failure', async () => {

@@ -4,6 +4,7 @@ import { listEntries, getEntry, searchEntries } from '../api/entries';
 import type { Entry } from '../types/entry';
 import EntryCard from '../components/EntryCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import WeekPicker, { type Week, toISODate, currentWeek } from '../components/WeekPicker';
 import './EntriesViewPage.css';
 
 function formatDate(raw?: string) {
@@ -62,11 +63,14 @@ export default function EntriesViewPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [inputValue, setInputValue] = useState(initialQuery);
+  const [selectedWeek, setSelectedWeek] = useState<Week>(currentWeek);
 
-  const load = useCallback((query: string) => {
+  const load = useCallback((query: string, week: Week) => {
     setLoading(true);
     setError(null);
-    const req = query.trim() ? searchEntries(query.trim()) : listEntries();
+    const req = query.trim()
+      ? searchEntries(query.trim())
+      : listEntries(toISODate(week.from), toISODate(week.to));
     req
       .then(setEntries)
       .catch(err => setError(err instanceof Error ? err.message : 'Failed to load entries.'))
@@ -74,8 +78,8 @@ export default function EntriesViewPage() {
   }, []);
 
   useEffect(() => {
-    if (!id) load(searchQuery);
-  }, [id, searchQuery, load]);
+    if (!id) load(searchQuery, selectedWeek);
+  }, [id, searchQuery, selectedWeek, load]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -83,6 +87,12 @@ export default function EntriesViewPage() {
   }
 
   function handleClear() {
+    setInputValue('');
+    setSearchQuery('');
+  }
+
+  function handleWeekSelect(week: Week) {
+    setSelectedWeek(week);
     setInputValue('');
     setSearchQuery('');
   }
@@ -97,6 +107,8 @@ export default function EntriesViewPage() {
           <span className="entries-view__count">{entries.length} {entries.length === 1 ? 'entry' : 'entries'}</span>
         )}
       </div>
+
+      <WeekPicker selected={selectedWeek} onChange={handleWeekSelect} />
 
       <form className="entries-view__search" onSubmit={handleSearch}>
         <input
@@ -119,7 +131,7 @@ export default function EntriesViewPage() {
       {!loading && error && (
         <div className="entries-view__error">
           <p>{error}</p>
-          <button className="entries-view__retry" onClick={() => load(searchQuery)}>Retry</button>
+          <button className="entries-view__retry" onClick={() => load(searchQuery, selectedWeek)}>Retry</button>
         </div>
       )}
 
@@ -128,10 +140,7 @@ export default function EntriesViewPage() {
           {searchQuery ? (
             <p>No results for "{searchQuery}".</p>
           ) : (
-            <>
-              <p>No entries yet.</p>
-              <Link to="/new">Write your first one →</Link>
-            </>
+            <p>No entries this week.</p>
           )}
         </div>
       )}

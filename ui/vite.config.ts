@@ -5,7 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/entries': 'http://you.havryliuk.com/api'
+      '/entries': {
+        target: 'https://you.havryliuk.com',
+        changeOrigin: true,
+      }
     }
   }
 })
