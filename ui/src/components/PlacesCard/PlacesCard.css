@@ -1,0 +1,40 @@
+.places-card {}
+
+.places-card__title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: normal;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.places-card__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.places-card__place {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+}
+
+.places-card__place:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.places-card__place small {
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
