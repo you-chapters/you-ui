@@ -1,40 +1,7 @@
-.people-card {}
-
 .people-card__title {
   font-family: var(--font-serif);
   font-size: 1.125rem;
   font-weight: normal;
   color: var(--color-text-primary);
   margin-bottom: var(--space-md);
-}
-
-.people-card__list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.people-card__person {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: 6px 12px;
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.9375rem;
-  color: var(--color-text-primary);
-  transition: border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
-}
-
-.people-card__person:hover {
-  border-color: var(--color-accent);
-  background: var(--color-accent-light);
-  color: var(--color-accent);
-}
-
-.people-card__person small {
-  color: var(--color-text-secondary);
-  font-size: 0.8125rem;
 }

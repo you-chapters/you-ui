@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import type { PersonCount } from '../../types/summary';
+import CountBubbles from '../CountBubbles';
 import LoadingSpinner from '../LoadingSpinner';
 import './PeopleCard.css';
 
@@ -13,22 +14,12 @@ export default function PeopleCard({ people }: Props) {
   if (people === null) return <section className="people-card"><LoadingSpinner size="sm" /></section>;
   if (people.length === 0) return null;
 
-  function handlePersonClick(name: string) {
-    navigate('/entries', { state: { searchQuery: name } });
-  }
+  const items = people.map(({ name, count }) => ({ label: name, count }));
 
   return (
     <section className="people-card">
       <h2 className="people-card__title">👥 People</h2>
-      <ul className="people-card__list">
-        {people.map(({ name, count }) => (
-          <li key={name}>
-            <button className="people-card__person" onClick={() => handlePersonClick(name)}>
-              {name} <small>×{count}</small>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <CountBubbles items={items} onLabelClick={name => navigate('/entries', { state: { searchQuery: name } })} />
     </section>
   );
 }

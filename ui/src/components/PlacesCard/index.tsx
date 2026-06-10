@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import type { LocationCount } from '../../types/summary';
+import CountBubbles from '../CountBubbles';
 import LoadingSpinner from '../LoadingSpinner';
 import './PlacesCard.css';
 
@@ -13,22 +14,12 @@ export default function PlacesCard({ locations }: Props) {
   if (locations === null) return <section className="places-card"><LoadingSpinner size="sm" /></section>;
   if (locations.length === 0) return null;
 
-  function handleLocationClick(location: string) {
-    navigate('/entries', { state: { searchQuery: location } });
-  }
+  const items = locations.map(({ location, count }) => ({ label: location, count }));
 
   return (
     <section className="places-card">
       <h2 className="places-card__title">📍 Places</h2>
-      <ul className="places-card__list">
-        {locations.map(({ location, count }) => (
-          <li key={location}>
-            <button className="places-card__place" onClick={() => handleLocationClick(location)}>
-              {location} <small>×{count}</small>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <CountBubbles items={items} onLabelClick={loc => navigate('/entries', { state: { searchQuery: loc } })} />
     </section>
   );
 }
