@@ -6,7 +6,6 @@ import PeriodStrip from '../components/PeriodStrip';
 import PeopleCard from '../components/PeopleCard';
 import PlacesCard from '../components/PlacesCard';
 import NarrativeStack from '../components/NarrativeStack';
-import LoadingSpinner from '../components/LoadingSpinner';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
@@ -28,14 +27,13 @@ export default function DashboardPage() {
   }, [period]);
 
   if (summaryError) return <p className="error">{summaryError}</p>;
-  if (!summary) return <LoadingSpinner centered />;
 
   return (
     <main className="dashboard">
       <PeriodStrip summary={summary} period={period} onPeriodChange={setPeriod} />
       <div className="dashboard__cards-row">
-        <PeopleCard people={summary.top_people} />
-        <PlacesCard locations={summary.top_locations ?? []} />
+        <PeopleCard people={summary?.top_people ?? null} />
+        <PlacesCard locations={summary?.top_locations ?? null} />
       </div>
       <NarrativeStack type="week" currentKey={weekKey} previousKey={prevWeekKey} />
       <NarrativeStack type="month" currentKey={mthKey} previousKey={prevMthKey} />

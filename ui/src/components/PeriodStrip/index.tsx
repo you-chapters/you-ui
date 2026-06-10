@@ -1,4 +1,5 @@
 import type { PeriodSummary } from '../../types/summary';
+import LoadingSpinner from '../LoadingSpinner';
 import './PeriodStrip.css';
 
 const MOOD_COLOR: Record<string, string> = {
@@ -27,13 +28,13 @@ function dominantMood(timeline: { mood: string }[]): string | null {
 }
 
 interface Props {
-  summary: PeriodSummary;
+  summary: PeriodSummary | null;
   period: 7 | 30;
   onPeriodChange: (p: 7 | 30) => void;
 }
 
 export default function PeriodStrip({ summary, period, onPeriodChange }: Props) {
-  const mood = dominantMood(summary.mood_timeline);
+  const mood = summary ? dominantMood(summary.mood_timeline) : null;
 
   return (
     <section className="period-strip">
@@ -55,12 +56,16 @@ export default function PeriodStrip({ summary, period, onPeriodChange }: Props) 
             {MOOD_EMOJI[mood]}
           </span>
         )}
-        <span className="period-strip__count">
-          {summary.entry_count} {summary.entry_count === 1 ? 'entry' : 'entries'}
-        </span>
+        {summary && (
+          <span className="period-strip__count">
+            {summary.entry_count} {summary.entry_count === 1 ? 'entry' : 'entries'}
+          </span>
+        )}
       </div>
 
-      {summary.mood_timeline.length > 0 && (
+      {!summary && <LoadingSpinner size="sm" centered={false} />}
+
+      {summary && summary.mood_timeline.length > 0 && (
         <div className="mood-sparkline" aria-label="Mood timeline">
           {summary.mood_timeline.map(({ date, mood }) => (
             <span
@@ -73,7 +78,7 @@ export default function PeriodStrip({ summary, period, onPeriodChange }: Props) 
         </div>
       )}
 
-      {summary.top_topics.length > 0 && (
+      {summary && summary.top_topics.length > 0 && (
         <div className="topic-tags">
           {summary.top_topics.map(({ topic, count }) => (
             <span key={topic} className="tag">

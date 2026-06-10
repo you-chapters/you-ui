@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import type { PersonCount } from '../../types/summary';
+import LoadingSpinner from '../LoadingSpinner';
 import './PeopleCard.css';
 
 interface Props {
-  people: PersonCount[];
+  people: PersonCount[] | null;
 }
 
 export default function PeopleCard({ people }: Props) {
   const navigate = useNavigate();
 
+  if (people === null) return <section className="people-card"><LoadingSpinner size="sm" /></section>;
   if (people.length === 0) return null;
 
   function handlePersonClick(name: string) {

@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import type { LocationCount } from '../../types/summary';
+import LoadingSpinner from '../LoadingSpinner';
 import './PlacesCard.css';
 
 interface Props {
-  locations: LocationCount[];
+  locations: LocationCount[] | null;
 }
 
 export default function PlacesCard({ locations }: Props) {
   const navigate = useNavigate();
 
+  if (locations === null) return <section className="places-card"><LoadingSpinner size="sm" /></section>;
   if (locations.length === 0) return null;
 
   function handleLocationClick(location: string) {
