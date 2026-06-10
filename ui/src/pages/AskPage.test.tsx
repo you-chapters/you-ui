@@ -61,7 +61,7 @@ describe('AskPage', () => {
     await userEvent.type(screen.getByLabelText('Your question'), 'Where did I go?');
     await userEvent.click(screen.getByRole('button', { name: 'Ask' }));
     await waitFor(() => expect(screen.getByText('Went to Paris')).toBeTruthy());
-    expect(screen.getByRole('link', { name: /Went to Paris/ }).getAttribute('href')).toBe('/entries/e1');
+    expect(screen.getByRole('link', { name: /Went to Paris/ }).getAttribute('href')).toBe('/entry/e1');
   });
 
   it('does not render sources section when sources array is empty', async () => {

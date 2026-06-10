@@ -21,7 +21,7 @@ describe('EntryCard', () => {
 
   it('links to the entry detail page', () => {
     renderCard(baseEntry);
-    expect(screen.getByRole('link').getAttribute('href')).toBe('/entries/e1');
+    expect(screen.getByRole('link').getAttribute('href')).toBe('/entry/e1');
   });
 
   it('truncates entry longer than 200 characters with ellipsis', () => {
