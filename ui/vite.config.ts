@@ -8,6 +8,10 @@ export default defineConfig({
       '/entries': {
         target: 'https://you.havryliuk.com',
         changeOrigin: true,
+      },
+      '/phases': {
+        target: 'https://you.havryliuk.com',
+        changeOrigin: true,
       }
     }
   }
