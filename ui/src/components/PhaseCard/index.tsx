@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { PhaseRecord } from '../../types/phase';
 import './PhaseCard.css';
 
@@ -37,12 +38,12 @@ export default function PhaseCard({ phase }: Props) {
         </div>
       )}
 
-      <a
-        href={`/entries?from=${phase.start_date}&to=${phase.end_date ?? new Date().toISOString().slice(0, 10)}`}
+      <Link
+        to={`/entries?from=${phase.start_date}&to=${phase.end_date ?? new Date().toISOString().slice(0, 10)}`}
         className="phase-card__explore"
       >
         Explore entries →
-      </a>
+      </Link>
     </article>
   );
 }
