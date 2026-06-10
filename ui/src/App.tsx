@@ -20,6 +20,7 @@ export default function App() {
         <Route path="/new" element={<ProtectedRoute><NewEntryPage /></ProtectedRoute>} />
         <Route path="/entries" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
         <Route path="/entries/:id" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
+        <Route path="/entry/:id" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
         <Route path="/phases" element={<ProtectedRoute><PhasesPage /></ProtectedRoute>} />
         <Route path="/ask" element={<ProtectedRoute><AskPage /></ProtectedRoute>} />
       </Routes>

@@ -26,7 +26,7 @@ export default function EntryCard({ entry, target }: Props) {
   const date = formatDate(entry.timestamp);
 
   return (
-    <Link to={`/entries/${entry.entry_id}`} className="entry-card" target={target}>
+    <Link to={`/entry/${entry.entry_id}`} className="entry-card" target={target}>
       {date && <p className="entry-card__date">{date}</p>}
       {entry.location && <p className="entry-card__location">{entry.location}</p>}
       <p className="entry-card__preview">{preview}</p>
