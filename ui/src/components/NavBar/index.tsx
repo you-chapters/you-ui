@@ -26,6 +26,9 @@ export default function NavBar() {
             <NavLink to="/phases" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>
               Timeline
             </NavLink>
+            <NavLink to="/ask" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>
+              Ask
+            </NavLink>
           </>
         )}
         {user ? (

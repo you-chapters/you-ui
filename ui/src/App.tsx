@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import NewEntryPage from './pages/NewEntryPage';
 import EntriesViewPage from './pages/EntriesViewPage';
 import PhasesPage from './pages/PhasesPage';
+import AskPage from './pages/AskPage';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/entries" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
         <Route path="/entries/:id" element={<ProtectedRoute><EntriesViewPage /></ProtectedRoute>} />
         <Route path="/phases" element={<ProtectedRoute><PhasesPage /></ProtectedRoute>} />
+        <Route path="/ask" element={<ProtectedRoute><AskPage /></ProtectedRoute>} />
       </Routes>
     </>
   );

@@ -56,4 +56,16 @@ describe('EntryCard', () => {
     const container = renderCard(baseEntry);
     expect(container.querySelector('.entry-card__location')).toBeNull();
   });
+
+  it('passes target prop to the link', () => {
+    const { container } = render(
+      <MemoryRouter><EntryCard entry={baseEntry} target="_blank" /></MemoryRouter>
+    );
+    expect(container.querySelector('a')?.getAttribute('target')).toBe('_blank');
+  });
+
+  it('link has no target when prop is omitted', () => {
+    const container = renderCard(baseEntry);
+    expect(container.querySelector('a')?.getAttribute('target')).toBeNull();
+  });
 });

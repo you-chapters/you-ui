@@ -36,10 +36,12 @@ describe('NavBar — authenticated', () => {
     expect(screen.getByText('you.').getAttribute('href')).toBe('/');
   });
 
-  it('renders New Entry and All Entries links', () => {
+  it('renders New Entry, All Entries, Timeline, and Ask links', () => {
     renderNavBar();
     expect(screen.getByText('New Entry').getAttribute('href')).toBe('/new');
     expect(screen.getByText('All Entries').getAttribute('href')).toBe('/entries');
+    expect(screen.getByText('Timeline').getAttribute('href')).toBe('/phases');
+    expect(screen.getByText('Ask').getAttribute('href')).toBe('/ask');
   });
 
   it('displays the user display name', () => {
@@ -81,5 +83,6 @@ describe('NavBar — unauthenticated', () => {
     renderNavBar();
     expect(screen.queryByText('New Entry')).toBeNull();
     expect(screen.queryByText('All Entries')).toBeNull();
+    expect(screen.queryByText('Ask')).toBeNull();
   });
 });

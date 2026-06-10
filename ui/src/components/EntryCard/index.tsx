@@ -4,6 +4,7 @@ import './EntryCard.css';
 
 interface Props {
   entry: Entry;
+  target?: React.HTMLAttributeAnchorTarget;
 }
 
 function formatDate(raw?: string) {
@@ -20,12 +21,12 @@ function formatDate(raw?: string) {
   }
 }
 
-export default function EntryCard({ entry }: Props) {
+export default function EntryCard({ entry, target }: Props) {
   const preview = entry.entry.length > 200 ? entry.entry.slice(0, 200) + '…' : entry.entry;
   const date = formatDate(entry.timestamp);
 
   return (
-    <Link to={`/entries/${entry.entry_id}`} className="entry-card">
+    <Link to={`/entries/${entry.entry_id}`} className="entry-card" target={target}>
       {date && <p className="entry-card__date">{date}</p>}
       {entry.location && <p className="entry-card__location">{entry.location}</p>}
       <p className="entry-card__preview">{preview}</p>
