@@ -74,3 +74,33 @@
   color: var(--color-text-secondary);
   font-size: 0.75rem;
 }
+
+.period-strip__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.period-strip__skeleton-dots {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.period-strip__skeleton-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.period-strip__skeleton-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.period-strip__skeleton-tag {
+  height: 26px;
+  border-radius: var(--radius-sm);
+}

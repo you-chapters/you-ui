@@ -1,5 +1,5 @@
 import type { NarrativeSummary } from '../../types/narrative';
-import LoadingSpinner from '../LoadingSpinner';
+import Skeleton from '../Skeleton';
 import './NarrativeCard.css';
 
 interface Props {
@@ -52,7 +52,13 @@ export default function NarrativeCard({
         </div>
       </div>
       {loading ? (
-        <LoadingSpinner centered={false} />
+        <div className="narrative-skeleton">
+          <Skeleton className="narrative-skeleton__line" />
+          <Skeleton className="narrative-skeleton__line narrative-skeleton__line--med" />
+          <Skeleton className="narrative-skeleton__line" />
+          <Skeleton className="narrative-skeleton__line narrative-skeleton__line--short" />
+          <Skeleton className="narrative-skeleton__meta" />
+        </div>
       ) : narrative ? (
         <>
           <p className="narrative-text">{narrative.text}</p>

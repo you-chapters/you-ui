@@ -3,7 +3,7 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import { listEntries, getEntry, searchEntries } from '../api/entries';
 import type { Entry } from '../types/entry';
 import EntryCard from '../components/EntryCard';
-import LoadingSpinner from '../components/LoadingSpinner';
+import Skeleton from '../components/Skeleton';
 import WeekPicker, { type Week, toISODate, currentWeek } from '../components/WeekPicker';
 import './EntriesViewPage.css';
 
@@ -30,7 +30,16 @@ function EntryDetail({ id }: { id: string }) {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return (
+    <main className="entry-detail">
+      <div className="entry-detail__skeleton-meta">
+        <Skeleton className="entry-detail__skeleton-date" />
+      </div>
+      <Skeleton className="entry-detail__skeleton-body-line" />
+      <Skeleton className="entry-detail__skeleton-body-line" />
+      <Skeleton className="entry-detail__skeleton-body-line entry-detail__skeleton-body-line--short" />
+    </main>
+  );
   if (error) return (
     <div className="entry-detail">
       <Link to="/entries" className="entry-detail__back">← Back</Link>
@@ -126,7 +135,17 @@ export default function EntriesViewPage() {
         <button type="submit" className="entries-view__search-btn">Search</button>
       </form>
 
-      {loading && <LoadingSpinner />}
+      {loading && (
+        <div className="entries-view__list">
+          {Array.from({ length: 4 }, (_, i) => (
+            <div key={i} className="entries-view__skeleton-card">
+              <Skeleton className="entries-view__skeleton-date" />
+              <Skeleton className="entries-view__skeleton-line" />
+              <Skeleton className="entries-view__skeleton-line entries-view__skeleton-line--short" />
+            </div>
+          ))}
+        </div>
+      )}
 
       {!loading && error && (
         <div className="entries-view__error">

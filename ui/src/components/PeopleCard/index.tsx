@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import type { PersonCount } from '../../types/summary';
 import CountBubbles from '../CountBubbles';
-import LoadingSpinner from '../LoadingSpinner';
+import Skeleton from '../Skeleton';
 import './PeopleCard.css';
 
 interface Props {
@@ -11,7 +11,19 @@ interface Props {
 export default function PeopleCard({ people }: Props) {
   const navigate = useNavigate();
 
-  if (people === null) return <section className="people-card"><LoadingSpinner size="sm" /></section>;
+  if (people === null) return (
+    <section className="people-card">
+      <Skeleton className="people-card__skeleton-title" />
+      <div className="people-card__skeleton-bubbles">
+        {[54, 42, 38].map(size => (
+          <div key={size} className="people-card__skeleton-group">
+            <Skeleton style={{ width: size, height: size, borderRadius: '50%' }} />
+            <Skeleton className="people-card__skeleton-label" />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
   if (people.length === 0) return null;
 
   const items = people.map(({ name, count }) => ({ label: name, count }));

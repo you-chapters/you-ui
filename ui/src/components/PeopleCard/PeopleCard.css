@@ -1,3 +1,28 @@
+.people-card__skeleton-title {
+  width: 70px;
+  height: 18px;
+  margin-bottom: var(--space-md);
+}
+
+.people-card__skeleton-bubbles {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.people-card__skeleton-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.people-card__skeleton-label {
+  width: 48px;
+  height: 12px;
+}
+
 .people-card__title {
   font-family: var(--font-serif);
   font-size: 1.125rem;

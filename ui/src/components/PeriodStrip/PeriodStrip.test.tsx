@@ -19,6 +19,13 @@ const baseSummary: PeriodSummary = {
 };
 
 describe('PeriodStrip', () => {
+  it('renders skeleton dots and tags when summary is null', () => {
+    const { container } = render(<PeriodStrip summary={null} period={7} onPeriodChange={vi.fn()} />);
+    expect(container.querySelector('.period-strip__skeleton-dots')).toBeTruthy();
+    expect(container.querySelector('.period-strip__skeleton-tags')).toBeTruthy();
+    expect(container.querySelector('.period-strip__skeleton-dot')).toBeTruthy();
+  });
+
   it('renders plural entry count', () => {
     render(<PeriodStrip summary={baseSummary} period={30} onPeriodChange={vi.fn()} />);
     expect(screen.getByText('5 entries')).toBeTruthy();

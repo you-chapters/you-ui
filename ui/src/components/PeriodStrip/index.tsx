@@ -1,5 +1,5 @@
 import type { PeriodSummary } from '../../types/summary';
-import LoadingSpinner from '../LoadingSpinner';
+import Skeleton from '../Skeleton';
 import './PeriodStrip.css';
 
 const MOOD_COLOR: Record<string, string> = {
@@ -63,7 +63,20 @@ export default function PeriodStrip({ summary, period, onPeriodChange }: Props) 
         )}
       </div>
 
-      {!summary && <LoadingSpinner size="sm" centered={false} />}
+      {!summary && (
+        <div className="period-strip__skeleton">
+          <div className="period-strip__skeleton-dots">
+            {Array.from({ length: 7 }, (_, i) => (
+              <Skeleton key={i} className="period-strip__skeleton-dot" />
+            ))}
+          </div>
+          <div className="period-strip__skeleton-tags">
+            {[90, 70, 80, 60].map(w => (
+              <Skeleton key={w} className="period-strip__skeleton-tag" style={{ width: w }} />
+            ))}
+          </div>
+        </div>
+      )}
 
       {summary && summary.mood_timeline.length > 0 && (
         <div className="mood-sparkline" aria-label="Mood timeline">

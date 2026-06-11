@@ -36,14 +36,14 @@ function renderDetailView(id: string) {
 describe('EntriesViewPage - list mode', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('shows loading spinner while fetching', () => {
+  it('shows skeleton cards while fetching', () => {
     vi.mocked(entriesApi.listEntries).mockReturnValue(new Promise(() => {}));
     const { container } = render(
       <MemoryRouter initialEntries={['/entries']}>
         <Routes><Route path="/entries" element={<EntriesViewPage />} /></Routes>
       </MemoryRouter>
     );
-    expect(container.querySelector('.spinner')).toBeTruthy();
+    expect(container.querySelectorAll('.entries-view__skeleton-card').length).toBeGreaterThan(0);
   });
 
   it('calls listEntries on load with current week dates', async () => {

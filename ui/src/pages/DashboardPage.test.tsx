@@ -28,10 +28,10 @@ describe('DashboardPage', () => {
     vi.clearAllMocks();
   });
 
-  it('shows loading spinner while fetching', () => {
+  it('shows skeleton while fetching', () => {
     vi.mocked(summaryApi.getSummary).mockReturnValue(new Promise(() => {}));
     const { container } = render(<MemoryRouter><DashboardPage /></MemoryRouter>);
-    expect(container.querySelector('.spinner')).toBeTruthy();
+    expect(container.querySelector('.skeleton')).toBeTruthy();
   });
 
   it('renders summary content after load', async () => {
@@ -62,14 +62,14 @@ describe('DashboardPage', () => {
     await waitFor(() => expect(summaryApi.getSummary).toHaveBeenCalledWith(7));
   });
 
-  it('shows loading spinner again while re-fetching after period change', async () => {
+  it('shows skeleton again while re-fetching after period change', async () => {
     vi.mocked(summaryApi.getSummary)
       .mockResolvedValueOnce(mockSummary)
       .mockReturnValue(new Promise(() => {}));
     const { container } = render(<MemoryRouter><DashboardPage /></MemoryRouter>);
     await waitFor(() => screen.getByText('30d'));
     fireEvent.click(screen.getByText('30d'));
-    expect(container.querySelector('.spinner')).toBeTruthy();
+    expect(container.querySelector('.skeleton')).toBeTruthy();
   });
 
   it('renders two narrative stacks', async () => {

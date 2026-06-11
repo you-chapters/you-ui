@@ -31,11 +31,11 @@ describe('NarrativeCard', () => {
     expect(screen.getByText(/1 entry/)).toBeInTheDocument();
   });
 
-  it('shows spinner and hides content when loading', () => {
+  it('shows skeleton and hides content when loading', () => {
     const { container } = render(
       <NarrativeCard title="This week" narrative={null} loading={true} refreshing={false} onRefresh={() => {}} />,
     );
-    expect(container.querySelector('.spinner')).toBeTruthy();
+    expect(container.querySelector('.narrative-skeleton')).toBeTruthy();
     expect(screen.queryByText('It was a thoughtful week.')).not.toBeInTheDocument();
   });
 

@@ -13,6 +13,12 @@ vi.mock('react-router-dom', async () => {
 describe('PeopleCard', () => {
   beforeEach(() => vi.clearAllMocks());
 
+  it('renders skeleton when people is null', () => {
+    const { container } = render(<MemoryRouter><PeopleCard people={null} /></MemoryRouter>);
+    expect(container.querySelector('.skeleton')).toBeTruthy();
+    expect(container.querySelector('.people-card__skeleton-bubbles')).toBeTruthy();
+  });
+
   it('renders nothing when people list is empty', () => {
     const { container } = render(<MemoryRouter><PeopleCard people={[]} /></MemoryRouter>);
     expect(container.firstChild).toBeNull();

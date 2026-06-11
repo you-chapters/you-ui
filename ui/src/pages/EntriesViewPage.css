@@ -171,3 +171,46 @@
   color: var(--color-text-primary);
   white-space: pre-wrap;
 }
+
+.entries-view__skeleton-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entries-view__skeleton-date {
+  height: 12px;
+  width: 140px;
+}
+
+.entries-view__skeleton-line {
+  height: 14px;
+  width: 100%;
+}
+
+.entries-view__skeleton-line--short {
+  width: 65%;
+}
+
+.entry-detail__skeleton-meta {
+  margin-bottom: var(--space-lg);
+}
+
+.entry-detail__skeleton-date {
+  height: 12px;
+  width: 150px;
+}
+
+.entry-detail__skeleton-body-line {
+  height: 16px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.entry-detail__skeleton-body-line--short {
+  width: 55%;
+}

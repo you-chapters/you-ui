@@ -76,3 +76,28 @@
   color: var(--color-text-secondary);
   font-size: 0.8125rem;
 }
+
+.narrative-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.narrative-skeleton__line {
+  height: 14px;
+  width: 100%;
+}
+
+.narrative-skeleton__line--med {
+  width: 82%;
+}
+
+.narrative-skeleton__line--short {
+  width: 60%;
+}
+
+.narrative-skeleton__meta {
+  height: 11px;
+  width: 42%;
+  margin-top: 4px;
+}
