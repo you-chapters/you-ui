@@ -6,6 +6,7 @@ import PeriodStrip from '../components/PeriodStrip';
 import PeopleCard from '../components/PeopleCard';
 import PlacesCard from '../components/PlacesCard';
 import NarrativeStack from '../components/NarrativeStack';
+import OnThisDayCard from '../components/OnThisDayCard';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
@@ -30,6 +31,7 @@ export default function DashboardPage() {
 
   return (
     <main className="dashboard">
+      <OnThisDayCard />
       <PeriodStrip summary={summary} period={period} onPeriodChange={setPeriod} />
       <div className="dashboard__cards-row">
         <PeopleCard people={summary?.top_people ?? null} />

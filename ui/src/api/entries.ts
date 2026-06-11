@@ -21,6 +21,10 @@ export function listEntries(fromDate?: string, toDate?: string): Promise<Entry[]
   return apiFetch<Entry[]>(`/entries${queryString ? `?${queryString}` : ''}`);
 }
 
+export function getOnThisDay(): Promise<Entry[]> {
+  return apiFetch<Entry[]>('/entries/on-this-day');
+}
+
 export function searchEntries(query: string): Promise<Entry[]> {
   return apiFetch<{ entries: Entry[] }>('/entries/search', {
     method: 'POST',
