@@ -63,7 +63,7 @@ export default function NarrativeCard({
         <>
           <p className="narrative-text">{narrative.text}</p>
           <small className="narrative-meta">
-            Generated {new Date(narrative.generated_at).toLocaleDateString()} ·{' '}
+            Generated {new Date(narrative.generated_at).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} ·{' '}
             {narrative.entry_count} {narrative.entry_count === 1 ? 'entry' : 'entries'}
           </small>
         </>
