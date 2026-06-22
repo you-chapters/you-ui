@@ -16,23 +16,23 @@ const mockNarrative = {
 describe('getNarrative', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('calls with type=week and refresh=false by default', async () => {
+  it('calls with type=week and no refresh param by default', async () => {
     vi.mocked(client.apiFetch).mockResolvedValue(mockNarrative);
     const result = await getNarrative();
-    expect(client.apiFetch).toHaveBeenCalledWith('/entries/narrative?type=week&refresh=false');
+    expect(client.apiFetch).toHaveBeenCalledWith('/entries/narrative?type=week');
     expect(result).toEqual(mockNarrative);
   });
 
   it('uses type=month when specified', async () => {
     vi.mocked(client.apiFetch).mockResolvedValue(mockNarrative);
     await getNarrative('month');
-    expect(client.apiFetch).toHaveBeenCalledWith('/entries/narrative?type=month&refresh=false');
+    expect(client.apiFetch).toHaveBeenCalledWith('/entries/narrative?type=month');
   });
 
   it('appends key param when provided', async () => {
     vi.mocked(client.apiFetch).mockResolvedValue(mockNarrative);
     await getNarrative('week', '2026-W21');
-    expect(client.apiFetch).toHaveBeenCalledWith('/entries/narrative?type=week&refresh=false&key=2026-W21');
+    expect(client.apiFetch).toHaveBeenCalledWith('/entries/narrative?type=week&key=2026-W21');
   });
 
   it('sets refresh=true when requested', async () => {
