@@ -6,7 +6,14 @@ interface Props {
   phase: PhaseRecord;
 }
 
+function moodChip(mean_mood: number): { emoji: string; label: string; modifier: string } {
+  if (mean_mood >= 0.5) return { emoji: '😊', label: 'positive', modifier: 'positive' };
+  if (mean_mood <= -0.5) return { emoji: '😔', label: 'low', modifier: 'low' };
+  return { emoji: '😐', label: 'neutral', modifier: 'neutral' };
+}
+
 export default function PhaseCard({ phase }: Props) {
+  const mood = moodChip(phase.mean_mood);
   const dateRange = phase.end_date
     ? `${phase.start_date} – ${phase.end_date}`
     : `${phase.start_date} – ongoing`;
@@ -24,19 +31,18 @@ export default function PhaseCard({ phase }: Props) {
 
       <p className="phase-card__description">{phase.description}</p>
 
-      {(phase.dominant_topics.length > 0 || phase.top_people.length > 0 || phase.top_locations.length > 0) && (
-        <div className="phase-card__chips">
-          {phase.dominant_topics.map(t => (
-            <span key={t} className="phase-chip phase-chip--topic">{t}</span>
-          ))}
-          {phase.top_people.map(p => (
-            <span key={p} className="phase-chip phase-chip--person">{p}</span>
-          ))}
-          {phase.top_locations.map(l => (
-            <span key={l} className="phase-chip phase-chip--location">{l}</span>
-          ))}
-        </div>
-      )}
+      <div className="phase-card__chips">
+        <span className={`phase-chip phase-chip--mood-${mood.modifier}`} title={`mood: ${mood.label}`}>{mood.emoji}</span>
+        {phase.dominant_topics.map(t => (
+          <span key={t} className="phase-chip phase-chip--topic">{t}</span>
+        ))}
+        {phase.top_people.map(p => (
+          <span key={p} className="phase-chip phase-chip--person">{p}</span>
+        ))}
+        {phase.top_locations.map(l => (
+          <span key={l} className="phase-chip phase-chip--location">{l}</span>
+        ))}
+      </div>
 
       <Link
         to={`/entries?from=${phase.start_date}&to=${phase.end_date ?? new Date().toISOString().slice(0, 10)}`}

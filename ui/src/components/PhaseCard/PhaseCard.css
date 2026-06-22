@@ -78,6 +78,21 @@
   color: var(--color-text-secondary);
 }
 
+.phase-chip--mood-positive {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  color: var(--color-success);
+}
+
+.phase-chip--mood-neutral {
+  background: color-mix(in srgb, var(--color-text-secondary) 10%, transparent);
+  color: var(--color-text-secondary);
+}
+
+.phase-chip--mood-low {
+  background: color-mix(in srgb, var(--color-error) 10%, transparent);
+  color: var(--color-error);
+}
+
 .phase-card__explore {
   font-size: 0.8125rem;
   font-weight: 500;

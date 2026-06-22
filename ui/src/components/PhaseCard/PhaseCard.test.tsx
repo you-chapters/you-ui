@@ -79,8 +79,37 @@ describe('PhaseCard', () => {
     expect(link.getAttribute('href')).toBe('/entries?from=2023-12-01&to=2024-05-20');
   });
 
-  it('renders no chips section when all chip arrays are empty', () => {
+  it('chips section still present when topic/people/location arrays are empty', () => {
     const { container } = renderCard({ ...closed, dominant_topics: [], top_people: [], top_locations: [] });
-    expect(container.querySelector('.phase-card__chips')).toBeNull();
+    expect(container.querySelector('.phase-card__chips')).toBeTruthy();
+  });
+
+  it('renders a positive mood chip for mean_mood >= 0.5', () => {
+    const { container } = renderCard({ ...closed, mean_mood: 0.58 });
+    const chip = container.querySelector('.phase-chip--mood-positive');
+    expect(chip).toBeTruthy();
+    expect(chip!.textContent).toBe('😊');
+    expect(chip!.getAttribute('title')).toBe('mood: positive');
+  });
+
+  it('renders a neutral mood chip for mean_mood between -0.5 and 0.5', () => {
+    const { container } = renderCard({ ...closed, mean_mood: 0.0 });
+    const chip = container.querySelector('.phase-chip--mood-neutral');
+    expect(chip).toBeTruthy();
+    expect(chip!.textContent).toBe('😐');
+    expect(chip!.getAttribute('title')).toBe('mood: neutral');
+  });
+
+  it('renders a low mood chip for mean_mood <= -0.5', () => {
+    const { container } = renderCard({ ...closed, mean_mood: -1.2 });
+    const chip = container.querySelector('.phase-chip--mood-low');
+    expect(chip).toBeTruthy();
+    expect(chip!.textContent).toBe('😔');
+    expect(chip!.getAttribute('title')).toBe('mood: low');
+  });
+
+  it('renders exactly one mood chip', () => {
+    const { container } = renderCard(closed);
+    expect(container.querySelectorAll('[class*="phase-chip--mood"]')).toHaveLength(1);
   });
 });
