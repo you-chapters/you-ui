@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import EntryCard from '../components/EntryCard';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { askQuestion } from '../api/qa';
 import type { QaResponse } from '../types/qa';
 import './NewEntryPage.css';
