@@ -36,9 +36,11 @@ describe('NavBar — authenticated', () => {
     expect(screen.getByText('you.').getAttribute('href')).toBe('/');
   });
 
-  it('renders New Entry, All Entries, Timeline, and Ask links', () => {
+  it('renders nav links; New Entry is visible but disabled', () => {
     renderNavBar();
-    expect(screen.getByText('New Entry').getAttribute('href')).toBe('/new');
+    const newEntry = screen.getByText('New Entry');
+    expect(newEntry.tagName).toBe('SPAN');
+    expect(newEntry.classList.contains('navbar__link--disabled')).toBe(true);
     expect(screen.getByText('All Entries').getAttribute('href')).toBe('/entries');
     expect(screen.getByText('Timeline').getAttribute('href')).toBe('/phases');
     expect(screen.getByText('Ask').getAttribute('href')).toBe('/ask');

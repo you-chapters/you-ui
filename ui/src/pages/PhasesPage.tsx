@@ -51,8 +51,7 @@ export default function PhasesPage() {
         <h1 className="phases-page__title">Timeline</h1>
         <button
           className="phases-page__refresh"
-          onClick={() => load(true)}
-          disabled={refreshing}
+          disabled
           title="Refresh timeline"
           aria-label="Refresh timeline"
         >↻</button>

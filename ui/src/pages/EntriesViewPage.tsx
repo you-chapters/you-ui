@@ -4,7 +4,7 @@ import { listEntries, getEntry, searchEntries } from '../api/entries';
 import type { Entry } from '../types/entry';
 import EntryCard from '../components/EntryCard';
 import Skeleton from '../components/Skeleton';
-import WeekPicker, { type Week, toISODate, currentWeek } from '../components/WeekPicker';
+import WeekPicker, { type Week, toISODate } from '../components/WeekPicker';
 import './EntriesViewPage.css';
 
 function formatDate(raw?: string) {
@@ -72,7 +72,7 @@ export default function EntriesViewPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [inputValue, setInputValue] = useState(initialQuery);
-  const [selectedWeek, setSelectedWeek] = useState<Week>(currentWeek);
+  const [selectedWeek, setSelectedWeek] = useState<Week>({ from: new Date(2026, 6, 20), to: new Date(2026, 6, 26) });
 
   const load = useCallback((query: string, week: Week) => {
     setLoading(true);
