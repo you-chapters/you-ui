@@ -71,7 +71,7 @@ export default function NarrativeStack({ type, currentKey, previousKey }: Props)
           narrative={isCurrent ? current : previous}
           loading={isCurrent ? currentLoading : previousLoading}
           refreshing={isCurrent ? currentRefreshing : false}
-          showRefresh={false}
+          showRefresh={isCurrent}
           onRefresh={handleRefresh}
           onBack={!isCurrent ? () => navigate(0) : undefined}
           onForward={isCurrent ? () => navigate(1) : undefined}

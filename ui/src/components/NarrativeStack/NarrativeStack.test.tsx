@@ -55,11 +55,11 @@ describe('NarrativeStack', () => {
     expect(screen.queryByRole('button', { name: 'Previous' })).not.toBeInTheDocument();
   });
 
-  it('does not show refresh button on current card', async () => {
+  it('shows refresh button on current card', async () => {
     vi.mocked(narrativeApi.getNarrative).mockResolvedValue(currentNarrative);
     renderStack();
     await waitFor(() => screen.getByText('This week'));
-    expect(screen.queryByRole('button', { name: 'Refresh' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Refresh' })).toBeInTheDocument();
   });
 
   it('does not load previous until navigated', async () => {
@@ -126,4 +126,11 @@ describe('NarrativeStack', () => {
     expect(container.querySelector('.narrative-stack__peek')).toBeNull();
   });
 
+  it('calls refresh with refresh=true', async () => {
+    vi.mocked(narrativeApi.getNarrative).mockResolvedValue(currentNarrative);
+    renderStack();
+    await waitFor(() => screen.getByRole('button', { name: 'Refresh' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Refresh' }));
+    expect(narrativeApi.getNarrative).toHaveBeenCalledWith('week', '2026-W21', true);
+  });
 });
