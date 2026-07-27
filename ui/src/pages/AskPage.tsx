@@ -52,8 +52,10 @@ export default function AskPage() {
           <div className="alert alert--error">{error}</div>
         )}
 
-        <button type="submit" className="new-entry__submit" disabled>
-          Ask
+        <button type="submit" className="new-entry__submit" disabled={status === 'loading' || !question.trim()}>
+          {status === 'loading'
+            ? <><LoadingSpinner size="sm" centered={false} /> Thinking…</>
+            : 'Ask'}
         </button>
       </form>
 
