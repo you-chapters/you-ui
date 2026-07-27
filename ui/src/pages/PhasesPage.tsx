@@ -9,6 +9,7 @@ import './PhasesPage.css';
 export default function PhasesPage() {
   const [phases, setPhases] = useState<PhaseRecord[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [viewYear, setViewYear] = useState(new Date().getFullYear());
@@ -17,6 +18,7 @@ export default function PhasesPage() {
 
   async function load(refresh: boolean) {
     try {
+      if (refresh) setRefreshing(true);
       const data = await getPhases(refresh);
       setPhases(data);
       setError(null);
@@ -26,6 +28,7 @@ export default function PhasesPage() {
       setError('Failed to load timeline.');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }
 
