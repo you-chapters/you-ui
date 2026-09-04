@@ -25,80 +25,15 @@ describe('NewEntryPage', () => {
     expect(document.activeElement).toBe(textarea);
   });
 
-  it('shows validation error when submitting empty entry', async () => {
+  it('submit button is always disabled', () => {
     renderPage();
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    expect(screen.getByText('Entry cannot be empty.')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Save Entry' })).toBeDisabled();
   });
 
-  it('shows validation error for whitespace-only entry', async () => {
-    renderPage();
-    await userEvent.type(screen.getByLabelText('Your entry'), '   ');
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    expect(screen.getByText('Entry cannot be empty.')).toBeTruthy();
-  });
-
-  it('calls createEntry with trimmed text and no location when blank', async () => {
-    vi.mocked(entriesApi.createEntry).mockResolvedValue({
-      entry_id: '1', user_id: 'test-uuid', entry: 'test entry',
-    });
+  it('does not call createEntry when form is submitted', async () => {
     renderPage();
     await userEvent.type(screen.getByLabelText('Your entry'), 'test entry');
     await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    await waitFor(() => expect(screen.getByText(/Entry saved/)).toBeTruthy());
-    expect(entriesApi.createEntry).toHaveBeenCalledWith({ entry: 'test entry', location: undefined });
-  });
-
-  it('submits location when provided', async () => {
-    vi.mocked(entriesApi.createEntry).mockResolvedValue({
-      entry_id: '1', user_id: 'test-uuid', entry: 'test entry', location: 'Berlin',
-    });
-    renderPage();
-    await userEvent.type(screen.getByLabelText('Location'), 'Berlin');
-    await userEvent.type(screen.getByLabelText('Your entry'), 'test entry');
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    await waitFor(() => expect(screen.getByText(/Entry saved/)).toBeTruthy());
-    expect(entriesApi.createEntry).toHaveBeenCalledWith({ entry: 'test entry', location: 'Berlin' });
-  });
-
-  it('clears the location input after successful submit', async () => {
-    vi.mocked(entriesApi.createEntry).mockResolvedValue({
-      entry_id: '1', user_id: 'test-uuid', entry: 'test', location: 'Paris',
-    });
-    renderPage();
-    const locationInput = screen.getByLabelText('Location') as HTMLInputElement;
-    await userEvent.type(locationInput, 'Paris');
-    await userEvent.type(screen.getByLabelText('Your entry'), 'test');
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    await waitFor(() => expect(locationInput.value).toBe(''));
-  });
-
-  it('clears the textarea after successful submit', async () => {
-    vi.mocked(entriesApi.createEntry).mockResolvedValue({
-      entry_id: '1', user_id: 'test-uuid', entry: 'test',
-    });
-    renderPage();
-    const textarea = screen.getByLabelText('Your entry') as HTMLTextAreaElement;
-    await userEvent.type(textarea, 'some text');
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    await waitFor(() => expect(textarea.value).toBe(''));
-  });
-
-  it('shows API error message on submit failure', async () => {
-    vi.mocked(entriesApi.createEntry).mockRejectedValue(new Error('Server error'));
-    renderPage();
-    await userEvent.type(screen.getByLabelText('Your entry'), 'test');
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    await waitFor(() => expect(screen.getByText('Server error')).toBeTruthy());
-  });
-
-  it('disables the submit button while submitting', async () => {
-    vi.mocked(entriesApi.createEntry).mockImplementation(
-      () => new Promise(resolve => setTimeout(resolve, 5000))
-    );
-    renderPage();
-    await userEvent.type(screen.getByLabelText('Your entry'), 'test');
-    await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
-    await waitFor(() => expect(screen.getByRole('button')).toBeDisabled());
+    expect(entriesApi.createEntry).not.toHaveBeenCalled();
   });
 });

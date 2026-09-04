@@ -103,15 +103,14 @@ describe('EntriesViewPage - list mode', () => {
     await waitFor(() => screen.getByPlaceholderText('Search entries…'));
   });
 
-  it('calls searchEntries when form is submitted with a query', async () => {
+  it('does not call searchEntries when form is submitted (search disabled)', async () => {
     vi.mocked(entriesApi.listEntries).mockResolvedValue([]);
-    vi.mocked(entriesApi.searchEntries).mockResolvedValue([mockEntries[0]]);
     renderListView();
     await waitFor(() => screen.getByPlaceholderText('Search entries…'));
     fireEvent.change(screen.getByPlaceholderText('Search entries…'), { target: { value: 'Alice' } });
     fireEvent.submit(screen.getByPlaceholderText('Search entries…').closest('form')!);
-    await waitFor(() => expect(entriesApi.searchEntries).toHaveBeenCalledWith('Alice'));
-    expect(screen.getByText('First entry')).toBeTruthy();
+    expect(entriesApi.searchEntries).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
   });
 
   it('pre-populates search from location.state and calls searchEntries', async () => {
@@ -125,14 +124,10 @@ describe('EntriesViewPage - list mode', () => {
     expect(screen.getByDisplayValue('Alice')).toBeTruthy();
   });
 
-  it('shows no-results message when search returns empty', async () => {
+  it('shows no-results message for the current week when there are no entries', async () => {
     vi.mocked(entriesApi.listEntries).mockResolvedValue([]);
-    vi.mocked(entriesApi.searchEntries).mockResolvedValue([]);
     renderListView();
-    await waitFor(() => screen.getByPlaceholderText('Search entries…'));
-    fireEvent.change(screen.getByPlaceholderText('Search entries…'), { target: { value: 'xyz' } });
-    fireEvent.submit(screen.getByPlaceholderText('Search entries…').closest('form')!);
-    await waitFor(() => expect(screen.getByText('No results for "xyz".')).toBeTruthy());
+    await waitFor(() => expect(screen.getByText('No entries this week.')).toBeTruthy());
   });
 });
 
