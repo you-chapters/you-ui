@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import EntryCard from '../components/EntryCard';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { askQuestion } from '../api/qa';
+// import { askQuestion } from '../api/qa';
 import type { QaResponse } from '../types/qa';
 import './NewEntryPage.css';
 import './AskPage.css';
@@ -10,10 +10,11 @@ type Status = 'idle' | 'loading' | 'error';
 
 export default function AskPage() {
   const [question, setQuestion] = useState('');
-  const [status, setStatus] = useState<Status>('idle');
-  const [error, setError] = useState('');
-  const [result, setResult] = useState<QaResponse | null>(null);
+  const [status/*, setStatus*/] = useState<Status>('idle');
+  const [error/*, setError*/] = useState('');
+  const [result/*, setResult*/] = useState<QaResponse | null>(null);
 
+  /*
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const q = question.trim();
@@ -30,6 +31,7 @@ export default function AskPage() {
       setStatus('error');
     }
   }
+  */
 
   return (
     <main className="new-entry ask-page">

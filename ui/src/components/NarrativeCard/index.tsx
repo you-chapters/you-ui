@@ -17,7 +17,7 @@ export default function NarrativeCard({
   title,
   narrative,
   loading,
-  refreshing,
+  refreshing: _refreshing, // dormant – button is permanently disabled
   showRefresh = false,
   onRefresh,
   onBack,

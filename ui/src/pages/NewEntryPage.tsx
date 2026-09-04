@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { createEntry } from '../api/entries';
+// import { createEntry } from '../api/entries';
 import LoadingSpinner from '../components/LoadingSpinner';
 import './NewEntryPage.css';
 
@@ -9,9 +9,10 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export default function NewEntryPage() {
   const [entryText, setEntryText] = useState('');
   const [location, setLocation] = useState('');
-  const [status, setStatus] = useState<Status>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [status/*, setStatus*/] = useState<Status>('idle');
+  const [errorMessage/*, setErrorMessage*/] = useState('');
 
+  /*
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!entryText.trim()) {
@@ -30,6 +31,7 @@ export default function NewEntryPage() {
       setErrorMessage(err instanceof Error ? err.message : 'Something went wrong.');
     }
   }
+  */
 
   return (
     <main className="new-entry">

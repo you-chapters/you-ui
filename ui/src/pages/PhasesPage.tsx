@@ -9,7 +9,7 @@ import './PhasesPage.css';
 export default function PhasesPage() {
   const [phases, setPhases] = useState<PhaseRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [_refreshing, setRefreshing] = useState(false); // dormant – button is permanently disabled
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [viewYear, setViewYear] = useState(new Date().getFullYear());
