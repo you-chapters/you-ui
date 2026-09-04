@@ -35,7 +35,7 @@ export default function AskPage() {
     <main className="new-entry ask-page">
       <h1 className="new-entry__title">Ask about your life</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={e => e.preventDefault()}>
         <div className="field">
           <label className="field__label" htmlFor="question">Your question</label>
           <textarea
@@ -52,7 +52,7 @@ export default function AskPage() {
           <div className="alert alert--error">{error}</div>
         )}
 
-        <button type="submit" className="new-entry__submit" disabled={status === 'loading' || !question.trim()}>
+        <button type="submit" className="new-entry__submit" disabled>
           {status === 'loading'
             ? <><LoadingSpinner size="sm" centered={false} /> Thinking…</>
             : 'Ask'}

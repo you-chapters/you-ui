@@ -52,7 +52,7 @@ export default function PhasesPage() {
         <button
           className="phases-page__refresh"
           onClick={() => load(true)}
-          disabled={refreshing}
+          disabled
           title="Refresh timeline"
           aria-label="Refresh timeline"
         >↻</button>

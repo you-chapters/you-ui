@@ -44,7 +44,7 @@ export default function NewEntryPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={e => e.preventDefault()}>
         <div className="field">
           <label className="field__label" htmlFor="location">Location</label>
           <input
@@ -72,7 +72,7 @@ export default function NewEntryPage() {
         <button
           className="new-entry__submit"
           type="submit"
-          disabled={status === 'submitting'}
+          disabled
         >
           {status === 'submitting' ? <LoadingSpinner size="sm" centered={false} /> : 'Save Entry'}
         </button>

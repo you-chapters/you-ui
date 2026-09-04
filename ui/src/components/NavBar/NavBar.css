@@ -34,6 +34,11 @@
   color: var(--color-text-primary);
 }
 
+.navbar__link--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .navbar__link.active {
   color: var(--color-accent);
 }

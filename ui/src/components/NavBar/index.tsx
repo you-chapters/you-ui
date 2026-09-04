@@ -17,9 +17,7 @@ export default function NavBar() {
       <div className="navbar__links">
         {user && (
           <>
-            <NavLink to="/new" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>
-              New Entry
-            </NavLink>
+            <span className="navbar__link navbar__link--disabled">New Entry</span>
             <NavLink to="/entries" className={({ isActive }) => `navbar__link${isActive ? ' active' : ''}`}>
               All Entries
             </NavLink>

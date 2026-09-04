@@ -119,7 +119,7 @@ export default function EntriesViewPage() {
 
       <WeekPicker selected={selectedWeek} onChange={handleWeekSelect} />
 
-      <form className="entries-view__search" onSubmit={handleSearch}>
+      <form className="entries-view__search" onSubmit={e => e.preventDefault()}>
         <input
           type="search"
           className="entries-view__search-input"
@@ -132,7 +132,7 @@ export default function EntriesViewPage() {
             ×
           </button>
         )}
-        <button type="submit" className="entries-view__search-btn">Search</button>
+        <button type="submit" className="entries-view__search-btn" disabled>Search</button>
       </form>
 
       {loading && (

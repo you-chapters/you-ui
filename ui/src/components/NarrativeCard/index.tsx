@@ -31,7 +31,7 @@ export default function NarrativeCard({
           {showRefresh && (
             <button
               onClick={onRefresh}
-              disabled={refreshing}
+              disabled
               className="narrative-refresh-icon"
               title="Refresh"
               aria-label="Refresh"
