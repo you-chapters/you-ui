@@ -90,10 +90,10 @@ export default function EntriesViewPage() {
     if (!id) load(searchQuery, selectedWeek);
   }, [id, searchQuery, selectedWeek, load]);
 
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    setSearchQuery(inputValue);
-  }
+  // function handleSearch(e: React.FormEvent) {
+  //   e.preventDefault();
+  //   setSearchQuery(inputValue);
+  // }
 
   function handleClear() {
     setInputValue('');
