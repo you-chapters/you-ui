@@ -90,10 +90,10 @@ export default function EntriesViewPage() {
     if (!id) load(searchQuery, selectedWeek);
   }, [id, searchQuery, selectedWeek, load]);
 
-  // function handleSearch(e: React.FormEvent) {
-  //   e.preventDefault();
-  //   setSearchQuery(inputValue);
-  // }
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    setSearchQuery(inputValue);
+  }
 
   function handleClear() {
     setInputValue('');
@@ -119,7 +119,7 @@ export default function EntriesViewPage() {
 
       <WeekPicker selected={selectedWeek} onChange={handleWeekSelect} />
 
-      <form className="entries-view__search" onSubmit={e => e.preventDefault()}>
+      <form className="entries-view__search" onSubmit={handleSearch}>
         <input
           type="search"
           className="entries-view__search-input"
@@ -132,7 +132,7 @@ export default function EntriesViewPage() {
             ×
           </button>
         )}
-        <button type="submit" className="entries-view__search-btn" disabled>Search</button>
+        <button type="submit" className="entries-view__search-btn" disabled={!inputValue.trim()}>Search</button>
       </form>
 
       {loading && (

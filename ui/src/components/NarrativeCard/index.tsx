@@ -17,7 +17,7 @@ export default function NarrativeCard({
   title,
   narrative,
   loading,
-  refreshing: _refreshing, // dormant – button is permanently disabled
+  refreshing,
   showRefresh = false,
   onRefresh,
   onBack,
@@ -31,7 +31,7 @@ export default function NarrativeCard({
           {showRefresh && (
             <button
               onClick={onRefresh}
-              disabled
+              disabled={refreshing}
               className="narrative-refresh-icon"
               title="Refresh"
               aria-label="Refresh"

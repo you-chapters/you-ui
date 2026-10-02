@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { createEntry } from '../api/entries';
+import { createEntry } from '../api/entries';
 import LoadingSpinner from '../components/LoadingSpinner';
 import './NewEntryPage.css';
 
@@ -9,10 +9,9 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export default function NewEntryPage() {
   const [entryText, setEntryText] = useState('');
   const [location, setLocation] = useState('');
-  const [status/*, setStatus*/] = useState<Status>('idle');
-  const [errorMessage/*, setErrorMessage*/] = useState('');
+  const [status, setStatus] = useState<Status>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  /*
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!entryText.trim()) {
@@ -31,7 +30,6 @@ export default function NewEntryPage() {
       setErrorMessage(err instanceof Error ? err.message : 'Something went wrong.');
     }
   }
-  */
 
   return (
     <main className="new-entry">
@@ -46,7 +44,7 @@ export default function NewEntryPage() {
         </div>
       )}
 
-      <form onSubmit={e => e.preventDefault()}>
+      <form onSubmit={handleSubmit}>
         <div className="field">
           <label className="field__label" htmlFor="location">Location</label>
           <input
@@ -74,7 +72,7 @@ export default function NewEntryPage() {
         <button
           className="new-entry__submit"
           type="submit"
-          disabled
+          disabled={status === 'submitting'}
         >
           {status === 'submitting' ? <LoadingSpinner size="sm" centered={false} /> : 'Save Entry'}
         </button>
