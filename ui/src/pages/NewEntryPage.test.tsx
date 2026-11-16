@@ -25,20 +25,25 @@ describe('NewEntryPage', () => {
     expect(document.activeElement).toBe(textarea);
   });
 
-  it('shows validation error when submitting empty entry', async () => {
+  it('submit button is always disabled (project dormant)', async () => {
+    renderPage();
+    expect(screen.getByRole('button', { name: 'Save Entry' })).toBeDisabled();
+  });
+
+  it.skip('shows validation error when submitting empty entry', async () => {
     renderPage();
     await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
     expect(screen.getByText('Entry cannot be empty.')).toBeTruthy();
   });
 
-  it('shows validation error for whitespace-only entry', async () => {
+  it.skip('shows validation error for whitespace-only entry', async () => {
     renderPage();
     await userEvent.type(screen.getByLabelText('Your entry'), '   ');
     await userEvent.click(screen.getByRole('button', { name: 'Save Entry' }));
     expect(screen.getByText('Entry cannot be empty.')).toBeTruthy();
   });
 
-  it('calls createEntry with trimmed text and no location when blank', async () => {
+  it.skip('calls createEntry with trimmed text and no location when blank', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
       entry_id: '1', user_id: 'test-uuid', entry: 'test entry',
     });
@@ -49,7 +54,7 @@ describe('NewEntryPage', () => {
     expect(entriesApi.createEntry).toHaveBeenCalledWith({ entry: 'test entry', location: undefined });
   });
 
-  it('submits location when provided', async () => {
+  it.skip('submits location when provided', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
       entry_id: '1', user_id: 'test-uuid', entry: 'test entry', location: 'Berlin',
     });
@@ -61,7 +66,7 @@ describe('NewEntryPage', () => {
     expect(entriesApi.createEntry).toHaveBeenCalledWith({ entry: 'test entry', location: 'Berlin' });
   });
 
-  it('clears the location input after successful submit', async () => {
+  it.skip('clears the location input after successful submit', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
       entry_id: '1', user_id: 'test-uuid', entry: 'test', location: 'Paris',
     });
@@ -73,7 +78,7 @@ describe('NewEntryPage', () => {
     await waitFor(() => expect(locationInput.value).toBe(''));
   });
 
-  it('clears the textarea after successful submit', async () => {
+  it.skip('clears the textarea after successful submit', async () => {
     vi.mocked(entriesApi.createEntry).mockResolvedValue({
       entry_id: '1', user_id: 'test-uuid', entry: 'test',
     });
@@ -84,7 +89,7 @@ describe('NewEntryPage', () => {
     await waitFor(() => expect(textarea.value).toBe(''));
   });
 
-  it('shows API error message on submit failure', async () => {
+  it.skip('shows API error message on submit failure', async () => {
     vi.mocked(entriesApi.createEntry).mockRejectedValue(new Error('Server error'));
     renderPage();
     await userEvent.type(screen.getByLabelText('Your entry'), 'test');

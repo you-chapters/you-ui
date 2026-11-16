@@ -61,12 +61,12 @@ describe('NarrativeCard', () => {
     expect(screen.getByRole('button', { name: 'Refresh' })).toBeDisabled();
   });
 
-  it('calls onRefresh when refresh button is clicked and not refreshing', () => {
+  it('refresh button is disabled (project dormant)', () => {
     const onRefresh = vi.fn();
     render(<NarrativeCard title="This week" narrative={stub} loading={false} refreshing={false} showRefresh onRefresh={onRefresh} />);
-    expect(screen.getByRole('button', { name: 'Refresh' })).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Refresh' })).toBeDisabled();
     fireEvent.click(screen.getByRole('button', { name: 'Refresh' }));
-    expect(onRefresh).toHaveBeenCalledOnce();
+    expect(onRefresh).not.toHaveBeenCalled();
   });
 
   it('renders back arrow when onBack provided', () => {

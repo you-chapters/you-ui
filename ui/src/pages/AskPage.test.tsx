@@ -25,10 +25,10 @@ describe('AskPage', () => {
     expect(screen.getByRole('button', { name: 'Ask' })).toBeDisabled();
   });
 
-  it('enables submit button when question has non-whitespace text', async () => {
+  it('submit button is always disabled (project dormant)', async () => {
     renderPage();
     await userEvent.type(screen.getByLabelText('Your question'), 'When did I last travel?');
-    expect(screen.getByRole('button', { name: 'Ask' })).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Ask' })).toBeDisabled();
   });
 
   it('does not submit when question is whitespace only', async () => {
@@ -38,7 +38,7 @@ describe('AskPage', () => {
     expect(qaApi.askQuestion).not.toHaveBeenCalled();
   });
 
-  it('calls askQuestion with trimmed question on submit', async () => {
+  it.skip('calls askQuestion with trimmed question on submit', async () => {
     vi.mocked(qaApi.askQuestion).mockResolvedValue({ answer: 'Last March.', sources: [] });
     renderPage();
     await userEvent.type(screen.getByLabelText('Your question'), 'When did I travel?');
@@ -46,7 +46,7 @@ describe('AskPage', () => {
     await waitFor(() => expect(qaApi.askQuestion).toHaveBeenCalledWith('When did I travel?'));
   });
 
-  it('renders the answer after a successful response', async () => {
+  it.skip('renders the answer after a successful response', async () => {
     vi.mocked(qaApi.askQuestion).mockResolvedValue({ answer: 'Last March.', sources: [] });
     renderPage();
     await userEvent.type(screen.getByLabelText('Your question'), 'When?');
@@ -54,7 +54,7 @@ describe('AskPage', () => {
     await waitFor(() => expect(screen.getByText('Last March.')).toBeTruthy());
   });
 
-  it('renders source entries with links when sources are returned', async () => {
+  it.skip('renders source entries with links when sources are returned', async () => {
     const entry = { entry_id: 'e1', user_id: 'u1', entry: 'Went to Paris' };
     vi.mocked(qaApi.askQuestion).mockResolvedValue({ answer: 'You went to Paris.', sources: [entry] });
     renderPage();
@@ -64,7 +64,7 @@ describe('AskPage', () => {
     expect(screen.getByRole('link', { name: /Went to Paris/ }).getAttribute('href')).toBe('/entry/e1');
   });
 
-  it('does not render sources section when sources array is empty', async () => {
+  it.skip('does not render sources section when sources array is empty', async () => {
     vi.mocked(qaApi.askQuestion).mockResolvedValue({ answer: 'No data found.', sources: [] });
     renderPage();
     await userEvent.type(screen.getByLabelText('Your question'), 'Anything?');
@@ -73,7 +73,7 @@ describe('AskPage', () => {
     expect(screen.queryByText('Based on these entries')).toBeNull();
   });
 
-  it('shows error message when API call fails', async () => {
+  it.skip('shows error message when API call fails', async () => {
     vi.mocked(qaApi.askQuestion).mockRejectedValue(new Error('Server error'));
     renderPage();
     await userEvent.type(screen.getByLabelText('Your question'), 'When?');
@@ -81,7 +81,7 @@ describe('AskPage', () => {
     await waitFor(() => expect(screen.getByText('Server error')).toBeTruthy());
   });
 
-  it('shows fallback error when thrown value is not an Error', async () => {
+  it.skip('shows fallback error when thrown value is not an Error', async () => {
     vi.mocked(qaApi.askQuestion).mockRejectedValue('oops');
     renderPage();
     await userEvent.type(screen.getByLabelText('Your question'), 'When?');
@@ -89,7 +89,7 @@ describe('AskPage', () => {
     await waitFor(() => expect(screen.getByText('Something went wrong.')).toBeTruthy());
   });
 
-  it('clears previous result when a new question is submitted', async () => {
+  it.skip('clears previous result when a new question is submitted', async () => {
     vi.mocked(qaApi.askQuestion)
       .mockResolvedValueOnce({ answer: 'First answer.', sources: [] })
       .mockResolvedValueOnce({ answer: 'Second answer.', sources: [] });

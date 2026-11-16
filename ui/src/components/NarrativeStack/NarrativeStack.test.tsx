@@ -126,12 +126,10 @@ describe('NarrativeStack', () => {
     expect(container.querySelector('.narrative-stack__peek')).toBeNull();
   });
 
-  it('refresh button is enabled and triggers a refresh call when clicked', async () => {
+  it('refresh button is disabled (project dormant)', async () => {
     vi.mocked(narrativeApi.getNarrative).mockResolvedValue(currentNarrative);
     renderStack();
     await waitFor(() => screen.getByRole('button', { name: 'Refresh' }));
-    expect(screen.getByRole('button', { name: 'Refresh' })).not.toBeDisabled();
-    fireEvent.click(screen.getByRole('button', { name: 'Refresh' }));
-    await waitFor(() => expect(narrativeApi.getNarrative).toHaveBeenCalledWith('week', '2026-W21', true));
+    expect(screen.getByRole('button', { name: 'Refresh' })).toBeDisabled();
   });
 });
