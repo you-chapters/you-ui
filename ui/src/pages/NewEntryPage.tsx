@@ -72,7 +72,7 @@ export default function NewEntryPage() {
         <button
           className="new-entry__submit"
           type="submit"
-          disabled={status === 'submitting'}
+          disabled={true || status === 'submitting'}
         >
           {status === 'submitting' ? <LoadingSpinner size="sm" centered={false} /> : 'Save Entry'}
         </button>

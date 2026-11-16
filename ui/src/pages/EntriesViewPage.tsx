@@ -132,7 +132,7 @@ export default function EntriesViewPage() {
             ×
           </button>
         )}
-        <button type="submit" className="entries-view__search-btn" disabled={!inputValue.trim()}>Search</button>
+        <button type="submit" className="entries-view__search-btn" disabled={true || !inputValue.trim()}>Search</button>
       </form>
 
       {loading && (
